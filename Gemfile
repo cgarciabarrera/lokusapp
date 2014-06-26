@@ -27,6 +27,7 @@ group :development do
 end
 group :development, :test do
   gem 'thin'
+  gem 'jazz_hands'
 end
 group :production do
   gem 'unicorn'
