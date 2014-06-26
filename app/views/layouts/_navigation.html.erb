@@ -11,9 +11,10 @@
       <%= link_to 'Home', root_path, class: 'navbar-brand' %>
 
       <% if current_user.present?  %>
-        <%= link_to 'Logout', '/users/sign_out', class: 'navbar-brand' %>
+
+        <%= link_to "Logout " + "estás logado como " + current_user.name  , '/users/sign_out', class: 'navbar-brand' %>
       <% else %>
-          <%#= link_to 'Log in', new_user_session, class: 'navbar-brand' %>
+          <%= link_to 'Log in', new_user_session_path, class: 'navbar-brand' %>
       <% end %>
     </div>
     <div class="collapse navbar-collapse">

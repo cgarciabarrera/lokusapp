@@ -21,7 +21,7 @@
     <% @devices.each do |device| %>
       <tr>
         <td><%= device.name %></td>
-        <td><%= device.user_id %></td>
+        <td><%= device.user.name if device.user.present?%></td>
         <td><%= device.type_id %></td>
         <td><%= device.last_lat %></td>
         <td><%= device.last_lon %></td>
