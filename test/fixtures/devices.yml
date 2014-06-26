@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  user_id: 1
+  type_id: 1
+  last_lat: 1.5
+  last_lon: 1.5
+  last_fix: 2014-06-26 17:16:48
+  active: false
+  available: false
+
+two:
+  name: MyString
+  user_id: 1
+  type_id: 1
+  last_lat: 1.5
+  last_lon: 1.5
+  last_fix: 2014-06-26 17:16:48
+  active: false
+  available: false
