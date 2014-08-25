@@ -1,0 +1,1 @@
+$redis = Redis.new(:host => 'localhost', :database => 'lokusapp', :port => 6379)

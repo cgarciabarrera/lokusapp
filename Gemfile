@@ -14,6 +14,12 @@ gem 'figaro'
 gem 'mysql2'
 gem 'rolify'
 gem 'therubyracer', :platform=>:ruby
+
+
+gem "redis", "~> 3.0.1"
+gem "hiredis", "~> 0.4.5"
+
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_20]

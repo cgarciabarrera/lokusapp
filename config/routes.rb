@@ -1,5 +1,14 @@
 Lokusapp::Application.routes.draw do
-  resources :devices
+  resources :devices do
+    collection do
+      get :new_point
+    end
+
+    member do
+
+    end
+
+  end
 
   root :to => "home#index"
   devise_for :users, :controllers => {:registrations => "registrations"}

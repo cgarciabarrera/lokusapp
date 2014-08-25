@@ -65,6 +65,18 @@ class DevicesController < ApplicationController
     end
   end
 
+  def new_point
+
+    $redis.zadd(Time.now.strftime("%y%m%d%H"), Time.now.to_s, "p")
+    render :text => "ok"
+
+  end
+
+
+  def new_ack
+
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_device

@@ -91,6 +91,7 @@ GEM
       posix-spawn (~> 0.3.6)
     hike (1.2.3)
     hirb (0.7.2)
+    hiredis (0.4.5)
     i18n (0.6.9)
     jazz_hands (0.5.2)
       awesome_print (~> 1.2)
@@ -170,6 +171,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
     rake (10.3.2)
+    redis (3.0.7)
     ref (1.0.5)
     rolify (3.4.0)
     sass (3.2.19)
@@ -235,6 +237,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   figaro
+  hiredis (~> 0.4.5)
   jazz_hands
   jbuilder (~> 1.2)
   jquery-rails
@@ -242,6 +245,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.0.0)
   rails_layout
+  redis (~> 3.0.1)
   rolify
   sass-rails (~> 4.0.0)
   therubyracer
