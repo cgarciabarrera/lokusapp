@@ -8,7 +8,9 @@ class CreateDevices < ActiveRecord::Migration
       t.float :last_lon
       t.datetime :last_fix
       t.boolean :active, :default => true
-      t.boolean :available, :default => true
+      t.boolean :available, :default => true #para que no guarde puntos con false
+
+
 
 
       t.timestamps

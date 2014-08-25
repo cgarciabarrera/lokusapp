@@ -6,4 +6,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :devices
+
+  has_many :shareds
+
+  has_many :shareds_with_me, :foreign_key => 'user_shared_id', :class_name => "Shared"
+
 end

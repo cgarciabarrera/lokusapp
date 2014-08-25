@@ -11,19 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140626161347) do
+ActiveRecord::Schema.define(version: 20140825162209) do
 
   create_table "devices", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
     t.integer  "type_id"
-    t.float    "last_lat",   default: 0.0
-    t.float    "last_lon",   default: 0.0
+    t.float    "last_lat",        default: 0.0
+    t.float    "last_lon",        default: 0.0
     t.datetime "last_fix"
-    t.boolean  "active",     default: true
-    t.boolean  "available",  default: true
+    t.boolean  "active",          default: true
+    t.boolean  "available",       default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "imei"
+    t.datetime "last_ack"
+    t.integer  "position_status", default: 0
+    t.boolean  "gps_status",      default: false
   end
 
   create_table "roles", force: true do |t|
@@ -36,6 +40,17 @@ ActiveRecord::Schema.define(version: 20140626161347) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "shareds", force: true do |t|
+    t.integer  "device_id"
+    t.integer  "user_id"
+    t.integer  "user_shared_id"
+    t.boolean  "visible",        default: true
+    t.datetime "from_date"
+    t.datetime "to_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
