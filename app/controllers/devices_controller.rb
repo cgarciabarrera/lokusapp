@@ -66,9 +66,14 @@ class DevicesController < ApplicationController
   end
 
   def new_point
+    a = Time.now.to_f
+    cant = 5000
+    cant.times do
+      $redis.zadd(Time.now.strftime("%y%m%d%H"), Time.now.to_f, [:time=> Time.now.to_f, :a => 1, :b => 2].to_json)
+    end
+    b = Time.now.to_f
 
-    $redis.zadd(Time.now.strftime("%y%m%d%H"), Time.now.to_s, "p")
-    render :text => "ok"
+    render :text => (cant / (b - a)).to_s
 
   end
 
