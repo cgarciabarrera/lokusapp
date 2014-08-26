@@ -67,10 +67,14 @@ class DevicesController < ApplicationController
 
   def new_point
     a = Time.now.to_f
-    cant = 10000
+    cant = 1000
     cant.times do
       t = Time.now.strftime("%y%m%d%H")
-      gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
+      #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
+
+      gps_data = "{'id': 1, 'name': 'A green door', 'price': 12.50,'tm': " + Time.now.to_f.to_s + "}"
+
+
       expire_time = 31536000 #en segundos
 
       keyHour = @device.id.to_s + ":h"
@@ -80,9 +84,9 @@ class DevicesController < ApplicationController
       #lista contenedora de horas con datos
       #modelo: id_device : YYYYMMDDhh
 
-      unless  $redis.sismember(keyHour, t)
+      if $redis.sadd(keyHour, t)
         #no hay datos de esa hora en la coleccion de horas del dispositivo
-        $redis.sadd(keyHour, t)                       # leer lista-> smembers 1:h
+        #$redis.sadd(keyHour, t)                       # leer lista-> smembers 1:h
         $redis.zadd(keyMinData, t, gps_data )         #Leer datos de dentro->   zrange 1:m 0 -1
       end
       #se lee con
