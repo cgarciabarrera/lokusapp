@@ -1,5 +1,5 @@
 class DevicesController < ApplicationController
-  before_action :set_device, only: [:show, :edit, :update, :destroy]
+  before_action :set_device, only: [:show, :edit, :update, :destroy, :new_point]
 
   before_filter :authenticate_user!
 
@@ -67,9 +67,32 @@ class DevicesController < ApplicationController
 
   def new_point
     a = Time.now.to_f
-    cant = 5000
+    cant = 100
     cant.times do
-      $redis.zadd(Time.now.strftime("%y%m%d%H"), Time.now.to_f, [:time=> Time.now.to_f, :a => 1, :b => 2].to_json)
+      t = Time.now.strftime("%y%m%d%H")
+      gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
+      expire_time = 365*24*60*60
+
+      keyHour = @device.id.to_s + ":h"
+      keyData = @device.id.to_s + ":" +  t
+      keyMinData = @device.id.to_s + ":m"
+
+      #lista contenedora de horas con datos
+      #modelo: id_device : YYYYMMDDhh
+
+      unless  $redis.sismember(keyHour, t)
+        #no hay datos de esa hora en la coleccion de horas del dispositivo
+        $redis.sadd(keyHour, t)                       # leer lista-> smembers 1:h
+        $redis.zadd(keyMinData, t, gps_data )         #Leer datos de dentro->   zrange 1:m 0 -1
+      end
+      #se lee con
+      # smembers 1:h
+
+      #lista contenedora de datos de un device una hora en concreto
+      #modelo: id_device:YYYYMMDDhh orden  valor = gps data
+      $redis.zadd(keyData, t, gps_data.to_s)         #Leer contenido con : zrange 1:14082616 0 -1
+      $redis.expire(keyData, expire_time)
+
     end
     b = Time.now.to_f
 
