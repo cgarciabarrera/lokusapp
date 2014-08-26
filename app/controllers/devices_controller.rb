@@ -67,11 +67,11 @@ class DevicesController < ApplicationController
 
   def new_point
     a = Time.now.to_f
-    cant = 100
+    cant = 10000
     cant.times do
       t = Time.now.strftime("%y%m%d%H")
       gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
-      expire_time = 365*24*60*60
+      expire_time = 31536000 #en segundos
 
       keyHour = @device.id.to_s + ":h"
       keyData = @device.id.to_s + ":" +  t
@@ -106,13 +106,13 @@ class DevicesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_device
-      @device = Device.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_device
+    @device = Device.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def device_params
-      params.require(:device).permit(:name, :user_id, :type_id, :last_lat, :last_lon, :last_fix, :active, :available)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def device_params
+    params.require(:device).permit(:name, :user_id, :type_id, :last_lat, :last_lon, :last_fix, :active, :available)
+  end
 end
