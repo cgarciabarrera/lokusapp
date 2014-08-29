@@ -4,12 +4,12 @@ require 'bundler/capistrano'
 require './config/deploy_tasks/after_deploy'
 
 set :normalize_asset_timestamps, false
-set :repository,  "git@github.com:cgarciabarrera/LokMe.git"
+set :repository,  "git@github.com:cgarciabarrera/lokusapp.git"
 set :user, "web"
 
 set :ssh_options, { :forward_agent => true }
 set :use_sudo, false
-set :keep_releases, 5
+set :keep_releases, 10
 set :scm, :git
 set :deploy_via, :remote_cache
 
@@ -32,11 +32,11 @@ begin
       exit unless proceed == 'y' || proceed == 'Y'
 
       #set :rvm_ruby_string, 'ruby-1.9.2-p180@fundspeople'
-      set :application, "www.lokusapp.com"
+      set :application, "new.lokusapp.com"
       set :deploy_to, "/home/web/apps/#{application}"
-      role :app, "www.lokusapp.com"
-      role :web, "www.lokusapp.com"
-      role :db,  "www.lokusapp.com", :primary => true
+      role :app, "176.31.17.51:"
+      role :web, "176.31.17.51:"
+      role :db,  "176.31.17.51:", :primary => true
       set :rails_env, "production"
       set :branch, "production"
 

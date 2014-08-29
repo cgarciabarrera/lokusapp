@@ -1,7 +1,7 @@
 #! /usr/bin/env ruby
 
 #listen "/tmp/.freeditorial_com_unicorn.sock"
-listen "/tmp/.lokusapp_production_com_unicorn.sock"
+listen "/tmp/.new_lokusapp_production_com_unicorn.sock"
 
 worker_processes 4
 
@@ -9,17 +9,17 @@ APP_PATH = "/home/web/apps/"
 
 if ENV['RAILS_ENV'] == 'staging'
   timeOut = 200
-  Dir = "lokme.lextrendlabs.com/"
+  Dir = "XXXX"
 else
   timeOut = 4000
-  Dir = "www.lokusapp.com/"
+  Dir = "new.lokusapp.com/"
 end
 
 working_directory APP_PATH + Dir + "current/"
 timeout timeOut
 pid APP_PATH + Dir + "current/tmp/pids/unicorn.pid"
-stderr_path APP_PATH + Dir + "current/log/lokme.stderr.log"
-stdout_path APP_PATH + Dir + "current/log/lokme.stdout.log"
+stderr_path APP_PATH + Dir + "current/log/new_lokme.stderr.log"
+stdout_path APP_PATH + Dir + "current/log/new_lokme.stdout.log"
 
 preload_app true
 GC.respond_to?(:copy_on_write_friendly=) and
