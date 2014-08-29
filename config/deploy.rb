@@ -34,9 +34,9 @@ begin
       #set :rvm_ruby_string, 'ruby-1.9.2-p180@fundspeople'
       set :application, "new.lokusapp.com"
       set :deploy_to, "/home/web/apps/#{application}"
-      role :app, "176.31.17.51:"
-      role :web, "176.31.17.51:"
-      role :db,  "176.31.17.51:", :primary => true
+      role :app, "176.31.17.51"
+      role :web, "176.31.17.51"
+      role :db,  "176.31.17.51", :primary => true
       set :rails_env, "production"
       set :branch, "production"
 

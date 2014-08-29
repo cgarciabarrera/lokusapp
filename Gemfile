@@ -21,14 +21,14 @@ gem "hiredis", "~> 0.4.5"
 
 gem 'newrelic_rpm'
 
-gem 'unicorn'
 
+gem "capistrano", "~> 2.13.4"
+gem 'rvm-capistrano'
 
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_20]
-  gem "capistrano", "~> 2.13.4"
-  gem 'rvm-capistrano'
+
 
   gem 'quiet_assets'
   gem 'rails_layout'
