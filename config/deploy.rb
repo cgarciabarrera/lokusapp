@@ -32,7 +32,7 @@ begin
       exit unless proceed == 'y' || proceed == 'Y'
 
       #set :rvm_ruby_string, 'ruby-1.9.2-p180@fundspeople'
-      set :rvm_ruby_string, 'ruby-2.0.0-p451@newlokusapp'
+      set :rvm_ruby_string, 'ruby-2.0.0-p481@newlokusapp'
       set :application, "new.lokusapp.com"
       set :deploy_to, "/home/web/apps/#{application}"
       role :app, "176.31.17.51"
