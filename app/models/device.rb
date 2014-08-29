@@ -23,4 +23,10 @@ class Device < ActiveRecord::Base
     $redis.zrevrange(self.id.to_s + ":" + hour, 0, -1)
   end
 
+
+  def last_point2
+    $redis.hgetall(self.id.to_s + ":lp")
+
+  end
+
 end

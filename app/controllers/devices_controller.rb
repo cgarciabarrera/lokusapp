@@ -67,10 +67,20 @@ class DevicesController < ApplicationController
 
   def new_point
     a = Time.now.to_f
-    cant = 1000
+    cant = 10000
     cant.times do
       t = Time.now.strftime("%y%m%d%H")
       #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
+
+      #datos del punto
+
+      lat = 67.98678678
+      lon = 5.08789798
+      speed = 45.6
+      altitude= 456
+      course = 45
+      fix_time = Time.now.to_f
+
 
       gps_data = "{'id': 1, 'name': 'A green door', 'price': 12.50,'tm': " + Time.now.to_f.to_s + "}"
 
@@ -92,7 +102,13 @@ class DevicesController < ApplicationController
       #se lee con
       # smembers 1:h
 
-      #lista contenedora de datos de un device una hora en concreto
+      #ultimo punto del device tratado como hash
+
+
+      $redis.hmset(@device.id.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
+
+
+                                        #lista contenedora de datos de un device una hora en concreto
       #modelo: id_device:YYYYMMDDhh orden  valor = gps data
       $redis.zadd(keyData, t, gps_data.to_s)         #Leer contenido con : zrange 1:14082616 0 -1
       $redis.expire(keyData, expire_time)
