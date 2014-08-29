@@ -1,7 +1,7 @@
 class DevicesController < ApplicationController
   before_action :set_device, only: [:show, :edit, :update, :destroy, :new_point]
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:new_point]
 
 
   # GET /devices
@@ -67,7 +67,7 @@ class DevicesController < ApplicationController
 
   def new_point
     a = Time.now.to_f
-    cant = 10000
+    cant = 5000
     cant.times do
       t = Time.now.strftime("%y%m%d%H")
       #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
