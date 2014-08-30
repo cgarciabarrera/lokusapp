@@ -109,7 +109,7 @@ class DevicesController < ApplicationController
       #ultimo punto del device tratado como hash
 
 
-      $redis.hmset(@device.id.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
+      $redis.hmset(@did.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
 
 
       #lista contenedora de datos de un device una hora en concreto
@@ -166,7 +166,7 @@ class DevicesController < ApplicationController
       #ultimo punto del device tratado como hash
 
 
-      $redis.hmset(@device.id.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
+      $redis.hmset(@did.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
 
 
                                         #lista contenedora de datos de un device una hora en concreto
