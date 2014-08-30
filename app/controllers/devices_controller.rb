@@ -1,7 +1,7 @@
 class DevicesController < ApplicationController
-  before_action :set_device, only: [:show, :edit, :update, :destroy, :new_point, :new_point1]
+  before_action :set_device, only: [:show, :edit, :update, :destroy] #, :new_point, :new_point1]
 
-  before_filter :authenticate_user!, :except => [:new_point]
+  before_filter :authenticate_user!, :except => [:new_point, :new_point1]
 
 
   # GET /devices
@@ -66,6 +66,8 @@ class DevicesController < ApplicationController
   end
 
   def new_point1
+    @device.id = params[:id]
+
     a = Time.now.to_f
     cant = 1
     cant.times do
@@ -121,6 +123,7 @@ class DevicesController < ApplicationController
   end
 
   def new_point
+    @device.id = params[:id]
     a = Time.now.to_f
     cant = 10000
     cant.times do
