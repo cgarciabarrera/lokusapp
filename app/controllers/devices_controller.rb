@@ -66,7 +66,9 @@ class DevicesController < ApplicationController
   end
 
   def new_point1
-    @device.id = params[:id]
+
+
+    @did = params[:id]
 
     a = Time.now.to_f
     cant = 1
@@ -89,9 +91,9 @@ class DevicesController < ApplicationController
 
       expire_time = 31536000 #en segundos
 
-      keyHour = @device.id.to_s + ":h"
-      keyData = @device.id.to_s + ":" +  t
-      keyMinData = @device.id.to_s + ":m"
+      keyHour = @did.to_s + ":h"
+      keyData = @did.to_s + ":" +  t
+      keyMinData = @did.to_s + ":m"
 
       #lista contenedora de horas con datos
       #modelo: id_device : YYYYMMDDhh
@@ -123,7 +125,8 @@ class DevicesController < ApplicationController
   end
 
   def new_point
-    @device.id = params[:id]
+
+    @did = params[:id]
     a = Time.now.to_f
     cant = 10000
     cant.times do
@@ -145,9 +148,9 @@ class DevicesController < ApplicationController
 
       expire_time = 31536000 #en segundos
 
-      keyHour = @device.id.to_s + ":h"
-      keyData = @device.id.to_s + ":" +  t
-      keyMinData = @device.id.to_s + ":m"
+      keyHour = @did.to_s + ":h"
+      keyData = @did.to_s + ":" +  t
+      keyMinData = @did.to_s + ":m"
 
       #lista contenedora de horas con datos
       #modelo: id_device : YYYYMMDDhh
