@@ -6,6 +6,7 @@ Lokusapp::Application.routes.draw do
 
     member do
       get :new_point
+      get :new_point1
     end
 
   end

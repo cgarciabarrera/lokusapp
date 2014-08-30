@@ -1,5 +1,5 @@
 class DevicesController < ApplicationController
-  before_action :set_device, only: [:show, :edit, :update, :destroy, :new_point]
+  before_action :set_device, only: [:show, :edit, :update, :destroy, :new_point, :new_point1]
 
   before_filter :authenticate_user!, :except => [:new_point]
 
@@ -65,9 +65,64 @@ class DevicesController < ApplicationController
     end
   end
 
+  def new_point1
+    a = Time.now.to_f
+    cant = 1
+    cant.times do
+      t = Time.now.strftime("%y%m%d%H")
+      #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
+
+      #datos del punto
+
+      lat = 67.98678678
+      lon = 5.08789798
+      speed = 45.6
+      altitude= 456
+      course = 45
+      fix_time = Time.now.to_f
+
+
+      gps_data = "{'id': 1, 'name': 'A green door', 'price': 12.50,'tm': " + Time.now.to_f.to_s + "}"
+
+
+      expire_time = 31536000 #en segundos
+
+      keyHour = @device.id.to_s + ":h"
+      keyData = @device.id.to_s + ":" +  t
+      keyMinData = @device.id.to_s + ":m"
+
+      #lista contenedora de horas con datos
+      #modelo: id_device : YYYYMMDDhh
+
+      if $redis.sadd(keyHour, t)
+        #no hay datos de esa hora en la coleccion de horas del dispositivo
+        #$redis.sadd(keyHour, t)                       # leer lista-> smembers 1:h
+        $redis.zadd(keyMinData, t, gps_data )         #Leer datos de dentro->   zrange 1:m 0 -1
+      end
+      #se lee con
+      # smembers 1:h
+
+      #ultimo punto del device tratado como hash
+
+
+      $redis.hmset(@device.id.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
+
+
+      #lista contenedora de datos de un device una hora en concreto
+      #modelo: id_device:YYYYMMDDhh orden  valor = gps data
+      $redis.zadd(keyData, t, gps_data.to_s)         #Leer contenido con : zrange 1:14082616 0 -1
+      $redis.expire(keyData, expire_time)
+
+    end
+    b = Time.now.to_f
+
+    render :text => (cant / (b - a)).to_s
+
+  end
+
   def new_point
     a = Time.now.to_f
-    cant = 5000
+    cant = 10000
     cant.times do
       t = Time.now.strftime("%y%m%d%H")
       #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
