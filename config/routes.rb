@@ -1,11 +1,11 @@
 Lokusapp::Application.routes.draw do
   resources :devices do
     collection do
-
+      get :new_point
     end
 
     member do
-      get :new_point
+
       get :new_point1
     end
 

@@ -126,25 +126,53 @@ class DevicesController < ApplicationController
 
   def new_point
 
-    @did = params[:id]
-    a = Time.now.to_f
-    cant = 10000
-    cant.times do
-      t = Time.now.strftime("%y%m%d%H")
+    if params[:imei].present?
+
+      imei= params[:imei]
+      fix_time = params[:datetime]
+
+      user_id = $redis.hget("d:" + imei.to_s, "usr")
+
+      if user_id.nil?
+        render :text => ("KO imei no existe en redis")
+        return
+      end
+
+      fix_time = params[:datetime]
+
+      #p "diferencia: " + (fix_time.to_i - $redis.hget("d:" + imei.to_s, "tim").to_i).to_s
+
+      #if  fix_time.to_i - $redis.hget("d:" + imei.to_s, "tim").to_i < 8
+      #  render :text => ("Mucha prisa")
+      #  return
+      #end
+
+      @did = imei
+
+      t = DateTime.strptime(fix_time,'%s').strftime("%y%m%d%H")
+
       #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
 
       #datos del punto
 
-      lat = 67.98678678
-      lon = 5.08789798
-      speed = 45.6
-      altitude= 456
-      course = 45
-      fix_time = Time.now.to_f
+      lat = params[:latitude]
+      lon = params[:longitude]
+      speed = params[:speed]
+      altitude= params[:altitude]
+      course = params[:course]
 
+      extended=params[:extended]
+      accuracy = "0"
 
-      gps_data = "{'id': 1, 'name': 'A green door', 'price': 12.50,'tm': " + Time.now.to_f.to_s + "}"
+      gps_data = ["lat", lat, "lon", lon, "spd", speed, "alt", altitude, "tim", fix_time, "crs", course, "ext", extended]
 
+      $redis.hmset("d:" + imei, gps_data)
+      #$redis.hset("d:" + imei, "lon", lon)
+      #$redis.hset("d:" + imei, "spd", speed)
+      #$redis.hset("d:" + imei, "alt", altitude)
+      #$redis.hset("d:" + imei, "crs", course)
+      #$redis.hset("d:" + imei, "tim", fix_time)
+      #$redis.hset("d:" + imei, "lon", lon)
 
       expire_time = 31536000 #en segundos
 
@@ -156,29 +184,23 @@ class DevicesController < ApplicationController
       #modelo: id_device : YYYYMMDDhh
 
       if $redis.sadd(keyHour, t)
-        #no hay datos de esa hora en la coleccion de horas del dispositivo
-        #$redis.sadd(keyHour, t)                       # leer lista-> smembers 1:h
-        $redis.zadd(keyMinData, t, gps_data )         #Leer datos de dentro->   zrange 1:m 0 -1
+        #si no hay datos de esa hora en la coleccion de horas del dispositivo, entonces lo graba
+        # leer lista-> smembers 1:h
+        $redis.zadd(keyMinData, t, gps_data.to_s )         #Leer datos de dentro->   zrange 1:m 0 -1
       end
       #se lee con
       # smembers 1:h
 
-      #ultimo punto del device tratado como hash
-
-
-      $redis.hmset(@did.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
-
-
-                                        #lista contenedora de datos de un device una hora en concreto
+      #lista contenedora de datos de un device una hora en concreto
       #modelo: id_device:YYYYMMDDhh orden  valor = gps data
       $redis.zadd(keyData, t, gps_data.to_s)         #Leer contenido con : zrange 1:14082616 0 -1
       $redis.expire(keyData, expire_time)
 
+      render :text => ("OK")
+
+    else
+      render :text => ("KO IMEI no es parametro")
     end
-    b = Time.now.to_f
-
-    render :text => (cant / (b - a)).to_s
-
   end
 
 
@@ -194,6 +216,10 @@ class DevicesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def device_params
-    params.require(:device).permit(:name, :user_id, :type_id, :last_lat, :last_lon, :last_fix, :active, :available)
+    params.require(:device).permit(:name, :user_id, :type_id, :last_lat, :last_lon, :last_fix, :active, :available, :imei)
   end
+
+
+
+
 end
