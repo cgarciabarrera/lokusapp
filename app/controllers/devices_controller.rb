@@ -129,9 +129,9 @@ class DevicesController < ApplicationController
     if params[:imei].present?
 
       imei= params[:imei]
-      fix_time = params[:datetime]
+      #fix_time = params[:datetime]
 
-      user_id = $redis.hget("d:" + imei.to_s, "usr")
+      user_id = $redis.hget(imei.to_s + ":d", "usr")
 
       if user_id.nil?
         render :text => ("KO imei no existe en redis")
@@ -166,7 +166,7 @@ class DevicesController < ApplicationController
 
       gps_data = ["lat", lat, "lon", lon, "spd", speed, "alt", altitude, "tim", fix_time, "crs", course, "ext", extended]
 
-      $redis.hmset("d:" + imei, gps_data)
+      $redis.hmset(imei + ":d", gps_data)
       #$redis.hset("d:" + imei, "lon", lon)
       #$redis.hset("d:" + imei, "spd", speed)
       #$redis.hset("d:" + imei, "alt", altitude)

@@ -20,19 +20,23 @@ class Device < ActiveRecord::Base
     #
     #key_data = $redis.zrevrange(self.imei.to_s + ":" + key_hour, 0, 0)[0]
 
-    $redis.hgetall("d:" + self.imei.to_s)
+    $redis.hgetall(self.imei.to_s + ":d")
 
 
   end
 
   def hours_with_points
-    $redis.smembers(self.imei.to_s + ":h")
+    h= $redis.smembers(self.imei.to_s + ":h")
+    h.sort
   end
 
   def points_of_hour(hour)
     $redis.zrevrange(self.imei.to_s + ":" + hour, 0, -1)
   end
 
+  def points_of_hour_count(hour)
+    $redis.zrevrange(self.imei.to_s + ":" + hour, 0, -1).count
+  end
 
 
 
@@ -40,9 +44,9 @@ class Device < ActiveRecord::Base
 
     # al crear un nuevo device
     # crea un set inicial con el user id al que pertenece
-    $redis.hset("d:" + self.imei.to_s, "usr", self.user.id.to_s)
-    $redis.hset("d:" + self.imei.to_s, "dev", self.id.to_s)
-    $redis.hset("d:" + self.imei.to_s, "tim", 0)
+    $redis.hset(self.imei.to_s + ":d" , "usr", self.user.id.to_s)
+    $redis.hset(self.imei.to_s + ":d", "dev", self.id.to_s)
+    $redis.hset(self.imei.to_s + ":d", "tim", 0)
 
     $redis.sadd("u:" + self.user.id.to_s, self.imei.to_s)
 
