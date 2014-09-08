@@ -19,12 +19,13 @@
 
   <tbody>
     <% @devices.each do |device| %>
+      <% p = device.last_point %>
       <tr>
         <td><%= device.name %></td>
         <td><%= device.user.name if device.user.present?%></td>
         <td><%= device.type_id %></td>
-        <td><%= device.last_lat %></td>
-        <td><%= device.last_lon %></td>
+        <td><%= p["lat"] unless p.nil? %></td>
+        <td><%= p["lon"] unless p.nil?%></td>
         <td><%= device.last_fix %></td>
         <td><%= device.active %></td>
         <td><%= device.available %></td>

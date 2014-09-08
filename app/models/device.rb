@@ -32,7 +32,9 @@ class Device < ActiveRecord::Base
   end
 
   def last_fix
-    DateTime.strptime(self.last_point["tim"], "%s")
+    unless self.last_point.nil?
+      DateTime.strptime(self.last_point["tim"], "%s")
+    end
   end
 
   def hours_with_points
