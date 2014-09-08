@@ -34,6 +34,7 @@ class DevicesController < ApplicationController
       if @device.save
         format.html { redirect_to @device, notice: 'Device was successfully created.' }
         format.json { render action: 'show', status: :created, location: @device }
+
       else
         format.html { render action: 'new' }
         format.json { render json: @device.errors, status: :unprocessable_entity }
@@ -44,6 +45,9 @@ class DevicesController < ApplicationController
   # PATCH/PUT /devices/1
   # PATCH/PUT /devices/1.json
   def update
+
+    #el imei NUNCA debe ser modificable.
+
     respond_to do |format|
       if @device.update(device_params)
         format.html { redirect_to @device, notice: 'Device was successfully updated.' }
@@ -59,69 +63,12 @@ class DevicesController < ApplicationController
   # DELETE /devices/1.json
   def destroy
     @device.destroy
+
+    $redis.srem("u:" + self.user.id.to_s, self.imei.to_s)
     respond_to do |format|
       format.html { redirect_to devices_url }
       format.json { head :no_content }
     end
-  end
-
-  def new_point1
-
-
-    @did = params[:id]
-
-    a = Time.now.to_f
-    cant = 1
-    cant.times do
-      t = Time.now.strftime("%y%m%d%H")
-      #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
-
-      #datos del punto
-
-      lat = 67.98678678
-      lon = 5.08789798
-      speed = 45.6
-      altitude= 456
-      course = 45
-      fix_time = Time.now.to_f
-
-
-      gps_data = "{'id': 1, 'name': 'A green door', 'price': 12.50,'tm': " + Time.now.to_f.to_s + "}"
-
-
-      expire_time = 31536000 #en segundos
-
-      keyHour = @did.to_s + ":h"
-      keyData = @did.to_s + ":" +  t
-      keyMinData = @did.to_s + ":m"
-
-      #lista contenedora de horas con datos
-      #modelo: id_device : YYYYMMDDhh
-
-      if $redis.sadd(keyHour, t)
-        #no hay datos de esa hora en la coleccion de horas del dispositivo
-        #$redis.sadd(keyHour, t)                       # leer lista-> smembers 1:h
-        $redis.zadd(keyMinData, t, gps_data )         #Leer datos de dentro->   zrange 1:m 0 -1
-      end
-      #se lee con
-      # smembers 1:h
-
-      #ultimo punto del device tratado como hash
-
-
-      $redis.hmset(@did.to_s + ":lp", "l", lat, "ln", lon, "s", speed, "a", altitude, "c", course, "t", fix_time)
-
-
-      #lista contenedora de datos de un device una hora en concreto
-      #modelo: id_device:YYYYMMDDhh orden  valor = gps data
-      $redis.zadd(keyData, t, gps_data.to_s)         #Leer contenido con : zrange 1:14082616 0 -1
-      $redis.expire(keyData, expire_time)
-
-    end
-    b = Time.now.to_f
-
-    render :text => (cant / (b - a)).to_s
-
   end
 
   def new_point
@@ -166,6 +113,9 @@ class DevicesController < ApplicationController
 
       gps_data = ["lat", lat, "lon", lon, "spd", speed, "alt", altitude, "tim", fix_time, "crs", course, "ext", extended]
 
+      gps_data_json = {:lat => lat, :lon=> lon, :spd => speed, :alt => altitude, :tim => fix_time, :crs => course, :ext => extended}.to_json
+
+
       $redis.hmset(imei + ":d", gps_data)
       #$redis.hset("d:" + imei, "lon", lon)
       #$redis.hset("d:" + imei, "spd", speed)
@@ -183,17 +133,19 @@ class DevicesController < ApplicationController
       #lista contenedora de horas con datos
       #modelo: id_device : YYYYMMDDhh
 
+
+
       if $redis.sadd(keyHour, t)
         #si no hay datos de esa hora en la coleccion de horas del dispositivo, entonces lo graba
         # leer lista-> smembers 1:h
-        $redis.zadd(keyMinData, t, gps_data.to_s )         #Leer datos de dentro->   zrange 1:m 0 -1
+        $redis.zadd(keyMinData, t, gps_data_json )         #Leer datos de dentro->   zrange 1:m 0 -1
       end
       #se lee con
       # smembers 1:h
 
       #lista contenedora de datos de un device una hora en concreto
       #modelo: id_device:YYYYMMDDhh orden  valor = gps data
-      $redis.zadd(keyData, t, gps_data.to_s)         #Leer contenido con : zrange 1:14082616 0 -1
+      $redis.zadd(keyData, fix_time, gps_data_json)         #Leer contenido con : zrange 1:14082616 0 -1
       $redis.expire(keyData, expire_time)
 
       render :text => ("OK")

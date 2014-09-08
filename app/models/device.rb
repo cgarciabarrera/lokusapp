@@ -9,20 +9,30 @@ class Device < ActiveRecord::Base
 
   validates :user, presence: true
 
-  validates :imei, presence: true
+  validates :imei, presence: true, :uniqueness => true
 
   belongs_to :user
 
 
   def last_point
 
-    #key_hour = $redis.smembers(self.imei.to_s + ":h").sort.last
+    key_hour = $redis.smembers(self.imei.to_s + ":h").sort.last
+
     #
-    #key_data = $redis.zrevrange(self.imei.to_s + ":" + key_hour, 0, 0)[0]
+    if key_hour.present?
+      JSON.parse($redis.zrevrange(self.imei.to_s + ":" + key_hour, 0, 0)[0])
+    end
 
-    $redis.hgetall(self.imei.to_s + ":d")
 
 
+
+    #    $redis.hgetall(self.imei.to_s + ":d")
+
+
+  end
+
+  def last_fix
+    DateTime.strptime(self.last_point["tim"], "%s")
   end
 
   def hours_with_points
@@ -37,6 +47,38 @@ class Device < ActiveRecord::Base
   def points_of_hour_count(hour)
     $redis.zrevrange(self.imei.to_s + ":" + hour, 0, -1).count
   end
+
+  def last_x_points(quantity)
+
+    points =[]
+
+    #horas_ordenadas
+    key_hour = $redis.smembers(self.imei.to_s + ":h").sort.reverse
+
+    p key_hour
+
+    key_hour.each do |h|
+      if self.points_of_hour(h).count + points.count >= quantity
+
+        self.points_of_hour(h)[0..(quantity - points.size - 1)].each do |p|
+          points << JSON.parse(p)
+        end
+        break
+      else
+        self.points_of_hour(h).each do |p|
+          points << JSON.parse(p)
+        end
+      end
+
+    end
+
+    points
+
+
+
+  end
+
+
 
 
 
