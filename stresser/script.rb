@@ -23,5 +23,5 @@ File.open(filename, "r").each_line do |line|
   if i % 1000 == 0
     p "1000 mas"
   end
-  sleep 0.5
+  sleep 0.2
 end
