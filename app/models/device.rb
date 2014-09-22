@@ -20,7 +20,7 @@ class Device < ActiveRecord::Base
 
     #
     if key_hour.present?
-      JSON.parse($redis.zrevrange(self.imei.to_s + ":" + key_hour, 0, 0)[0])
+      eval($redis.zrevrange(self.imei.to_s + ":" + key_hour, 0, 0)[0])
     end
 
 
@@ -33,7 +33,7 @@ class Device < ActiveRecord::Base
 
   def last_fix
     unless self.last_point.nil?
-      DateTime.strptime(self.last_point["tim"], "%s")
+      DateTime.strptime(self.last_point[:tim].to_s, "%s")
     end
   end
 
@@ -57,18 +57,18 @@ class Device < ActiveRecord::Base
     #horas_ordenadas
     key_hour = $redis.smembers(self.imei.to_s + ":h").sort.reverse
 
-    p key_hour
+    #p key_hour
 
     key_hour.each do |h|
       if self.points_of_hour(h).count + points.count >= quantity
 
         self.points_of_hour(h)[0..(quantity - points.size - 1)].each do |p|
-          points << JSON.parse(p)
+          points << eval(p)
         end
         break
       else
         self.points_of_hour(h).each do |p|
-          points << JSON.parse(p)
+          points << eval(p)
         end
       end
 
@@ -81,7 +81,16 @@ class Device < ActiveRecord::Base
   end
 
 
+  def total_points
 
+    c = 0
+    self.hours_with_points.each do |h|
+      c = c + self.points_of_hour_count(h)
+    end
+
+    c
+
+  end
 
 
   def send_device_to_redis
@@ -97,8 +106,86 @@ class Device < ActiveRecord::Base
 
   end
 
-  def new_point(lat, lon, speed, c)
 
+
+  def self.new_point(device_imei, device_datetime, device_latitude, device_longitude, device_speed, device_altitude, device_course, device_extended)
+
+    if device_imei.present?
+
+      imei= device_imei
+      #fix_time = params[:datetime]
+
+      user_id = $redis.hget(imei.to_s + ":d", "usr")
+
+      if user_id.nil?
+        #render :text => ("KO imei no existe en redis")
+
+        return -1
+      end
+
+      fix_time = device_datetime
+
+      #p "diferencia: " + (fix_time.to_i - $redis.hget("d:" + imei.to_s, "tim").to_i).to_s
+
+      #if  fix_time.to_i - $redis.hget("d:" + imei.to_s, "tim").to_i < 8
+      #  render :text => ("Mucha prisa")
+      #  return
+      #end
+
+      @did = imei
+
+      t = DateTime.strptime(fix_time.to_s,'%s').strftime("%y%m%d%H")
+
+      #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
+
+      #datos del punto
+
+      lat = device_latitude
+      lon = device_longitude
+      speed = device_speed
+      altitude= device_altitude
+      course = device_course
+
+      extended=device_extended
+      accuracy = "0"
+
+      #gps_data = ["lat", lat, "lon", lon, "spd", speed, "alt", altitude, "tim", fix_time, "crs", course, "ext", extended]
+
+      #gps_data_json = {:lat => lat, :lon=> lon, :spd => speed, :alt => altitude, :tim => fix_time, :crs => course, :ext => extended}.to_json
+
+      gps_data = {lat: lat, lon: lon, spd: speed, alt: altitude, tim: fix_time, crs: course, ext: extended }
+
+
+      $redis.mapped_hmset(imei + ":d",  gps_data)
+
+      expire_time = 31536000 #en segundos
+
+      keyHour = @did.to_s + ":h"
+      keyData = @did.to_s + ":" +  t
+      keyMinData = @did.to_s + ":m"
+
+      #lista contenedora de horas con datos
+      #modelo: id_device : YYYYMMDDhh
+
+      if $redis.sadd(keyHour, t)
+        #si no hay datos de esa hora en la coleccion de horas del dispositivo, entonces lo graba
+        # leer lista-> smembers 1:h
+        $redis.zadd(keyMinData, t, gps_data )         #Leer datos de dentro->   zrange 1:m 0 -1
+      end
+      #se lee con
+      # smembers 1:h
+
+      #lista contenedora de datos de un device una hora en concreto
+      #modelo: id_device:YYYYMMDDhh orden  valor = gps data
+      $redis.zadd(keyData, fix_time, gps_data)         #Leer contenido con : zrange 1:14082616 0 -1
+      $redis.expire(keyData, expire_time)
+
+      #render :text => ("OK")
+      true
+    else
+      #render :text => ("KO IMEI no es parametro")
+      return -1
+    end
   end
 
 end

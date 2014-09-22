@@ -1,7 +1,15 @@
 require 'open-uri'
 i=0
 imei = ARGV[0]
-File.open("points.txt", "r").each_line do |line|
+dir = ARGV[1]
+
+filename=""
+if dir == "0"
+  filename = "points.txt"
+else
+  filename = "points_rev.txt"
+end
+File.open(filename, "r").each_line do |line|
   data = line.split(",")
   #p data[0] + "---" + data[1]
 
@@ -15,4 +23,5 @@ File.open("points.txt", "r").each_line do |line|
   if i % 1000 == 0
     p "1000 mas"
   end
+  sleep 0.5
 end
