@@ -74,8 +74,11 @@ class DevicesController < ApplicationController
   def new_point
 
     if params[:imei].present? && params[:datetime].present? && params[:latitude].present? && params[:longitude].present? && params[:speed].present? && params[:altitude].present? && params[:course].present? && params[:extended].present?
-       Device.new_point(params[:imei], params[:datetime], params[:latitude], params[:longitude], params[:speed], params[:altitude], params[:course], params[:extended])
-       render :text => ("OK")
+       if Device.new_point(params[:imei], params[:datetime], params[:latitude], params[:longitude], params[:speed], params[:altitude], params[:course], params[:extended])
+          render :text => ("OK")
+        else
+          render :text => ("KO")
+       end
     else
       render :text => ("KO")
     end

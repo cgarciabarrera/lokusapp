@@ -184,7 +184,7 @@ class Device < ActiveRecord::Base
       true
     else
       #render :text => ("KO IMEI no es parametro")
-      return -1
+      false
     end
   end
 
