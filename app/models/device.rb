@@ -13,6 +13,10 @@ class Device < ActiveRecord::Base
 
   belongs_to :user
 
+  scope :mine, (lambda do |user|
+    where('user_id = ?', user.id)
+  end)
+
 
   def last_point
 
