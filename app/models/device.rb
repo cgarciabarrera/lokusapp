@@ -157,7 +157,8 @@ class Device < ActiveRecord::Base
 
       #gps_data_json = {:lat => lat, :lon=> lon, :spd => speed, :alt => altitude, :tim => fix_time, :crs => course, :ext => extended}.to_json
 
-      gps_data = {lat: lat, lon: lon, spd: speed, alt: altitude, tim: fix_time, crs: course, ext: extended }
+      #gps_data = {lat: lat, lon: lon, spd: speed, alt: altitude, tim: fix_time, crs: course, ext: extended }
+      gps_data = {lat: lat.to_f, lon: lon.to_f, spd: speed.to_i, alt: altitude.to_i, tim: fix_time.to_f, crs: course.to_i, ext: extended }
 
 
       $redis.mapped_hmset(imei + ":d",  gps_data)
