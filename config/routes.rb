@@ -2,7 +2,10 @@ Lokusapp::Application.routes.draw do
   resources :devices do
     collection do
       get :new_point
+      get :list_own_devices
     end
+
+
 
     member do
 
