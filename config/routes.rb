@@ -1,4 +1,6 @@
 Lokusapp::Application.routes.draw do
+
+
   resources :devices do
     collection do
       get :new_point
@@ -17,9 +19,31 @@ Lokusapp::Application.routes.draw do
 
   resources :home do
 
-    collection do
 
-      get :pepe
+  end
+
+
+  namespace :api do
+    namespace :v1 do
+      devise_scope :user do
+        post 'sessions' => 'sessions#create', :as => 'loginpost'
+        get 'sessions' => 'sessions#create', :as => 'login'
+        delete 'sessions' => 'sessions#destroy', :as => 'logout'
+      end
+
+      resources :users do
+        collection do
+          get :register_user
+          post :register_user
+
+        end
+
+        member do
+
+        end
+      end
+
+
 
     end
   end
