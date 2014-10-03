@@ -40,10 +40,15 @@ Lokusapp::Application.routes.draw do
           post :register_user
 
         end
+      end
 
-        member do
+      resources :devices do
+        collection do
+          get :register_device
+          post :register_device
 
         end
+
       end
 
 
