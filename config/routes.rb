@@ -46,6 +46,14 @@ Lokusapp::Application.routes.draw do
         collection do
           get :register_device
           post :register_device
+          get :new_point_mobile
+          post :new_point_mobile
+          get :new_point
+          post :new_point
+          get :list_own_devices
+          post :list_own_devices
+
+
 
         end
 

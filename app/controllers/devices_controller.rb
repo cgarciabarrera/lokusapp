@@ -84,29 +84,6 @@ class DevicesController < ApplicationController
     end
   end
 
-  def list_own_devices
-    ##currenuser devicesall json
-    if current_user.present?
-      dato=[]
-      punto=  Hash.new
-      Device.mine(current_user).each do |q|
-
-        punto["device_id"]=q.id
-        punto["imei"] = q.imei
-        punto["lat"]=q.last_point[:lat]
-        punto["lon"]=q.last_point[:lon]
-        punto["tim"]=q.last_point[:tim]
-
-        dato.push punto.clone
-        punto.clear
-
-      end
-      render json: dato
-    end
-  end
-
-
-
 
   def new_ack
 

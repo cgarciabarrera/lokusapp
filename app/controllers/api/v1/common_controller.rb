@@ -4,6 +4,10 @@ class Api::V1::CommonController < ApplicationController
     render :json => {success: false, message: message}, status:  status
   end
 
+  def api_ok(message)
+    render :json => {success: true, message: message}, status: 200
+  end
+
   def check_params
 
   end
@@ -14,11 +18,17 @@ class Api::V1::CommonController < ApplicationController
       if user
         @user = user
       else
-        @user = false
+        api_error("no user", 401)
       end
     else
-      @user = false
+      api_error("no user", 401)
     end
+  end
+
+  def imei_belongs_to_user?(imei, user_id)
+
+    $redis.smembers("u:" + user_id.to_s).include? imei
+
   end
 
 end

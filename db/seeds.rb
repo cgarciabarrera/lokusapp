@@ -19,7 +19,7 @@ user.add_role :admin
 
 $redis.flushdb
 
-50.times.each do |dd|
+1.times.each do |dd|
   d = dd + 1
   Device.create(:imei => d.to_s, :user => User.last, :name => "Device " + d.to_s)
   Device.new_point(d.to_s,Time.now.to_i,1,1,190,120,34,nil)

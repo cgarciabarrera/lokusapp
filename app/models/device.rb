@@ -110,6 +110,11 @@ class Device < ActiveRecord::Base
 
   end
 
+  def self.imei_belongs_to_user?(user_id, imei)
+
+    $redis.smembers("u:" + user_id.to_s).include? imei
+
+  end
 
 
   def self.new_point(device_imei, device_datetime, device_latitude, device_longitude, device_speed, device_altitude, device_course, device_extended)

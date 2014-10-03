@@ -14,8 +14,8 @@ class Api::V1::UsersController < Api::V1::CommonController
       params[:nickname].present? ? u.name = params[:nickname] : params[:email]
       if u.valid?
         u.save
+        api_ok(:auth_token=>u.authentication_token)
 
-        render :json=> {:success=>true, :auth_token=>u.authentication_token, :email=>u.email}
       else
         api_error( u.errors, 500)
       end

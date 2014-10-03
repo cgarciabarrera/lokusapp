@@ -10,6 +10,7 @@
 #
 ADMIN_NAME: First User
 ADMIN_EMAIL: user@example.com
-ADMIN_PASSWORD: 0123blatta
+ADMIN_PASSWORD: changeme
 ROLES: [admin, user, VIP]
+ALLOWED_IP: ["127.0.0.1", "192.168.1.36"]
 
