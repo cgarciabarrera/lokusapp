@@ -1,6 +1,7 @@
 class Api::V1::DevicesController < Api::V1::CommonController
 
   before_action :set_user, except: [:new_point]
+  skip_before_filter :verify_authenticity_token
 
 
 
