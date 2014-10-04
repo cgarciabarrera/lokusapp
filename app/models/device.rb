@@ -51,7 +51,7 @@ class Device < ActiveRecord::Base
   end
 
   def points_of_hour_count(hour)
-    $redis.zrevrange(self.imei.to_s + ":" + hour, 0, -1).count
+    $redis.zcard(self.imei.to_s + ":" + hour)
   end
 
   def last_x_points(quantity)
