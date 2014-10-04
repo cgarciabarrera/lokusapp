@@ -19,11 +19,14 @@ user.add_role :admin
 
 $redis.flushdb
 
-1.times.each do |dd|
+10.times.each do |dd|
   d = dd + 1
   Device.create(:imei => d.to_s, :user => User.last, :name => "Device " + d.to_s)
-  Device.new_point(d.to_s,Time.now.to_i,1,1,190,120,34,nil)
+  2.times.each_with_index do |x, p|
+    Device.new_point(d.to_s,Time.now.to_f,(1 + (p/200.to_f)).to_f,(7 + (p/200.to_f)).to_f,(190 + (p/200.to_f)).to_f,120,34,nil)
+  end
+  p "creando device " +  d.to_s
 end
 
-#Device.create(:imei => "1", :user => User.last, :name => "Seed1")
-#Device.create(:imei => "2", :user => User.last, :name => "Seed2")
+
+

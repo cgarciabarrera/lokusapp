@@ -4,6 +4,7 @@ class Device < ActiveRecord::Base
 
   after_create :send_device_to_redis
 
+  after_destroy :remove_device_from_redis
 
   validates :name, presence: true
 
@@ -109,6 +110,29 @@ class Device < ActiveRecord::Base
 
 
   end
+
+
+  def remove_device_from_redis
+
+
+    #borro cada key con puntos de cada hora
+    $redis.smembers(self.id.to_s + ":h").each do |h|
+      $redis.del(self.id.to_s + ":" + h)
+    end
+
+    #borro la lista de horas con puntos
+    $redis.del(self.id.to_s + ":h")
+
+    #borro la lista de puntos minimos
+    $redis.del(self.id.to_s + ":m")
+
+    $redis.del(self.id.to_s + ":d")
+
+    $redis.srem("u:" + self.user.id.to_s, self.id.to_s)
+
+
+  end
+
 
   def self.imei_belongs_to_user?(user_id, imei)
 

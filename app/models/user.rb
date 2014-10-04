@@ -13,22 +13,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  has_many :devices
+  has_many :devices, :dependent => :destroy
 
   has_many :shareds
 
   has_many :shareds_with_me, :foreign_key => 'user_shared_id', :class_name => "Shared"
 
-  def devices_positions
 
-    dev = []
-    $redis.smembers("u:" + self.id.to_s).each do |d|
-      dev << $redis.hgetall("d:" + d.to_s )
-    end
-
-    dev
-
-  end
 
   private
 

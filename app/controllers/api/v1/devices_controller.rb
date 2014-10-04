@@ -89,28 +89,29 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
 
   def list_own_devices
-    ##currenuser devicesall json
+
     if @user.present?
-      dato=[]
-      punto=  Hash.new
-      Device.mine(@user).each do |q|
+      devices=[]
+      punto =  Hash.new
+      $redis.smembers("u:" + @user.id.to_s).each do |q|
 
-        punto["device_id"]=q.id
-        punto["imei"] = q.imei
+        p = $redis.hgetall(q + ":d")
+        punto["device_id"]=p["dev"]
 
-          punto["lat"]=q.last_point.present? ? q.last_point[:lat] : nil
-          punto["lon"]=q.last_point.present? ? q.last_point[:lon] : nil
-          punto["tim"]=q.last_point.present? ? q.last_point[:tim] : nil
+        punto["imei"] = q
 
-        dato.push punto.clone
+        punto["lat"]=p["lat"].present? ? p["lat"] : nil
+        punto["lon"]=p["lon"].present? ? p["lon"] : nil
+        punto["tim"]=p["tim"].present? ? p["tim"] : nil
+
+        devices.push punto.clone
         punto.clear
 
       end
-      api_ok(:devices=>dato)
+      api_ok(:devices=>devices)
 
     end
   end
-
 
 
 end
