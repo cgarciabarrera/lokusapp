@@ -48,15 +48,15 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
       if params[:imei].present? && params[:datetime].present? && params[:latitude].present? && params[:longitude].present? && params[:speed].present? && params[:altitude].present? && params[:course].present? && params[:extended].present?
 
-          if Device.new_point(params[:imei], params[:datetime], params[:latitude], params[:longitude], params[:speed], params[:altitude], params[:course], params[:extended])
-            api_ok(:imei=>params[:imei])
+        if Device.new_point(params[:imei], params[:datetime], params[:latitude], params[:longitude], params[:speed], params[:altitude], params[:course], params[:extended])
+          api_ok(:imei=>params[:imei])
 
-          else
-            api_error("error", 500)
-          end
+        else
+          api_error("error", 500)
+        end
 
       else
-          api_error("missing fields", 400)
+        api_error("missing fields", 400)
       end
     else
       api_error("?", 401)
@@ -92,25 +92,31 @@ class Api::V1::DevicesController < Api::V1::CommonController
     #recibe imei y cintidad de puntos
 
     if params[:points].present? && params[:imei].present?
+
       points_quantity = params[:points].to_i
       imei = params[:imei]
 
-      device =  Hash.new
+      if imei_belongs_to_user?(imei, @user.id)
+        device =  Hash.new
 
-      p = $redis.hgetall(imei + ":d")
-      device["device_id"]=p["dev"]
+        p = $redis.hgetall(imei + ":d")
+        device["device_id"]=p["dev"]
 
-      device["imei"] = imei
+        device["imei"] = imei
 
-      device["lat"]=p["lat"].present? ? p["lat"] : nil
-      device["lon"]=p["lon"].present? ? p["lon"] : nil
-      device["tim"]=p["tim"].present? ? p["tim"] : nil
-      if points_quantity > 1
-        device[:last_points] = Device.last_x_points(imei, points_quantity)
+        device["lat"]=p["lat"].present? ? p["lat"] : nil
+        device["lon"]=p["lon"].present? ? p["lon"] : nil
+        device["tim"]=p["tim"].present? ? p["tim"] : nil
+        if points_quantity > 1
+          device[:last_points] = Device.last_x_points(imei, points_quantity)
 
+        end
+
+        api_ok(:device=>device)
+      else
+        api_error("Device not yours", 401)
       end
 
-      api_ok(:device=>device)
     else
 
     end
