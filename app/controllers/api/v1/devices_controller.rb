@@ -113,7 +113,8 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
         end
 
-        devices.push device
+        devices.push device.clone
+        device.clear
 
       end
 
