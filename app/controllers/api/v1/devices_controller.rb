@@ -91,27 +91,38 @@ class Api::V1::DevicesController < Api::V1::CommonController
   def list_own_devices
 
     if @user.present?
+      points_quantity = 0
+      if params[:points].present?
+
+        points_quantity = params[:points].to_i
+      end
       devices=[]
-      punto =  Hash.new
+      device =  Hash.new
       $redis.smembers("u:" + @user.id.to_s).each do |q|
 
         p = $redis.hgetall(q + ":d")
-        punto["device_id"]=p["dev"]
+        device["device_id"]=p["dev"]
 
-        punto["imei"] = q
+        device["imei"] = q
 
-        punto["lat"]=p["lat"].present? ? p["lat"] : nil
-        punto["lon"]=p["lon"].present? ? p["lon"] : nil
-        punto["tim"]=p["tim"].present? ? p["tim"] : nil
+        device["lat"]=p["lat"].present? ? p["lat"] : nil
+        device["lon"]=p["lon"].present? ? p["lon"] : nil
+        device["tim"]=p["tim"].present? ? p["tim"] : nil
+        if points_quantity > 1
+          device[:last_points] = Device.last_x_points(q, points_quantity)
 
-        devices.push punto.clone
-        punto.clear
+        end
+
+        devices.push device
 
       end
+
       api_ok(:devices=>devices)
 
     end
   end
+
+
 
 
 end

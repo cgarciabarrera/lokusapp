@@ -19,13 +19,13 @@ class Device < ActiveRecord::Base
   end)
 
 
-  def last_point
+  def self.last_point(imei)
 
-    key_hour = $redis.smembers(self.imei.to_s + ":h").sort.last
+    key_hour = $redis.smembers(imei + ":h").sort.last
 
     #
     if key_hour.present?
-      eval($redis.zrevrange(self.imei.to_s + ":" + key_hour, 0, 0)[0])
+      eval($redis.zrevrange(imei + ":" + key_hour, 0, 0)[0])
     end
 
 
@@ -36,26 +36,26 @@ class Device < ActiveRecord::Base
 
   end
 
-  def last_fix
-    unless self.last_point.nil?
-      DateTime.strptime(self.last_point[:tim].to_s, "%s")
+  def self.last_fix(imei)
+    unless Device.last_point(imei).nil?
+      DateTime.strptime(Device.last_point(imei)[:tim].to_s, "%s")
     end
   end
 
-  def hours_with_points
-    h= $redis.smembers(self.imei.to_s + ":h")
+  def self.hours_with_points(imei)
+    h= $redis.smembers(imei + ":h")
     h.sort
   end
 
-  def points_of_hour(hour)
-    $redis.zrevrange(self.imei.to_s + ":" + hour, 0, -1)
+  def self.points_of_hour(imei, hour)
+    $redis.zrevrange(imei + ":" + hour, 0, -1)
   end
 
-  def points_of_hour_count(hour)
-    $redis.zcard(self.imei.to_s + ":" + hour)
+  def self.points_of_hour_count(imei, hour)
+    $redis.zcard(imei + ":" + hour)
   end
 
-  def last_x_points(quantity)
+  def last_x_points2(quantity)
 
     points =[]
 
@@ -81,16 +81,45 @@ class Device < ActiveRecord::Base
 
     points
 
+  end
 
+
+
+  def self.last_x_points(imei, quantity)
+
+    points =[]
+
+    #horas_ordenadas
+    key_hour = $redis.smembers(imei + ":h").sort.reverse
+
+    #p key_hour
+
+    key_hour.each do |h|
+      if Device.points_of_hour(imei,h).count + points.count >= quantity
+
+        Device.points_of_hour(imei, h)[0..(quantity - points.size - 1)].each do |p|
+          points << eval(p)
+        end
+        break
+      else
+        Device.points_of_hour(imei, h).each do |p|
+          points << eval(p)
+        end
+      end
+
+    end
+
+    points
 
   end
 
 
-  def total_points
+
+  def self.total_points(imei)
 
     c = 0
-    self.hours_with_points.each do |h|
-      c = c + self.points_of_hour_count(h)
+    Device.hours_with_points(imei).each do |h|
+      c = c + Device.points_of_hour_count(imei,h)
     end
 
     c
