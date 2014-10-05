@@ -87,6 +87,36 @@ class Api::V1::DevicesController < Api::V1::CommonController
     end
   end
 
+  def device_last_points
+
+    #recibe imei y cintidad de puntos
+
+    if params[:points].present? && params[:imei].present?
+      points_quantity = params[:points].to_i
+      imei = params[:imei]
+
+      device =  Hash.new
+
+      p = $redis.hgetall(imei + ":d")
+      device["device_id"]=p["dev"]
+
+      device["imei"] = imei
+
+      device["lat"]=p["lat"].present? ? p["lat"] : nil
+      device["lon"]=p["lon"].present? ? p["lon"] : nil
+      device["tim"]=p["tim"].present? ? p["tim"] : nil
+      if points_quantity > 1
+        device[:last_points] = Device.last_x_points(imei, points_quantity)
+
+      end
+
+      api_ok(:device=>device)
+    else
+
+    end
+
+  end
+
 
   def list_own_devices
 

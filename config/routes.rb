@@ -52,7 +52,8 @@ Lokusapp::Application.routes.draw do
           post :new_point
           get :list_own_devices
           post :list_own_devices
-
+          get :device_last_points
+          post :device_last_points
 
 
         end
