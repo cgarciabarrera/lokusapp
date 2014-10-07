@@ -5,23 +5,47 @@ dir = ARGV[1]
 
 filename=""
 if dir == "1"
-  filename = "points.txt"
+  filename = "1.txt"
 else
-  filename = "points_rev.txt"
+  filename = "2.txt"
 end
 File.open(filename, "r").each_line do |line|
-  data = line.split(",")
-  #p data[0] + "---" + data[1]
-
-
-  url = URI.parse("http://localhost:3000/devices/new_point?imei=" + imei + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
-  open(url) do |http|
-    #        response = http.read
-    #  puts "response: #{response.inspect}"
-  end
   i = i + 1
-  if i % 1000 == 0
-    p "1000 mas"
+
+end
+
+avoid_lines = (1..(i - 1)).to_a.sample
+
+
+
+actual_line = 0
+
+10.times do
+  File.open(filename, "r").each_line do |line|
+    actual_line = actual_line + 1
+
+    if actual_line >= avoid_lines
+      data = line.split(",")
+      #p data[0] + "---" + data[1]
+
+
+      url = URI.parse("http://localhost:3000/api/v1/devices/new_point?imei=" + imei + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
+      open(url) do |http|
+        #        response = http.read
+        #  puts "response: #{response.inspect}"
+      end
+
+      p "latitude=" + data[0] + "&longitude=" + data[1]
+      i = i + 1
+      if i % 1000 == 0
+  #      p "1000 mas"
+      end
+
+      #sleep 0.1
+
+    end
+
   end
-  sleep 0.2
+  avoid_lines = 0
+
 end
