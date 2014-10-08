@@ -64,7 +64,7 @@ class DevicesController < ApplicationController
   def destroy
     @device.destroy
 
-    $redis.srem("u:" + self.user.id.to_s, self.imei.to_s)
+    #$redis.srem("u:" + self.user.id.to_s, self.imei.to_s)
     respond_to do |format|
       format.html { redirect_to devices_url }
       format.json { head :no_content }
