@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>IMEI</th>
       <th>User</th>
       <th>Type</th>
       <th>Last lat</th>
@@ -22,6 +23,7 @@
       <% p = Device.last_point(device.imei) %>
       <tr>
         <td><%= device.name %></td>
+        <td><%= device.imei %></td>
         <td><%= device.user.name if device.user.present?%></td>
         <td><%= device.type_id %></td>
         <td><%= p[:lat] unless p.nil? %></td>
