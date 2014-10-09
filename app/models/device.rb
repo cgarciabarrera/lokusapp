@@ -170,7 +170,24 @@ class Device < ActiveRecord::Base
   end
 
   def self.points_interval(imei, start_timestamp, end_timestamp)
+    start_f = DateTime.strptime(start_timestamp.to_s,'%s').strftime("%y%m%d%H")
+    end_f = DateTime.strptime(end_timestamp.to_s,'%s').strftime("%y%m%d%H")
+    hours = Device.hours_with_points(imei)
 
+    min_hour = Functions.find_closest_low(hours, start_f.to_f)
+    max_hour = Functions.find_closest_high(hours, end_f.to_f)
+
+    p hours[min_hour]
+    p hours[max_hour]
+
+    points = []
+    hours[min_hour..max_hour].each do |i|
+      Device.points_of_hour(imei, i.to_s).each do |p|
+        points << eval(p)
+      end
+    end
+
+    points
 
   end
 

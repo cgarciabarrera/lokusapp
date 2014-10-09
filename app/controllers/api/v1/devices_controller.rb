@@ -99,10 +99,12 @@ class Api::V1::DevicesController < Api::V1::CommonController
     end
 
     if params[:start_time].present? && params[:imei].present?
+      imei = params[:imei]
       #paso todo formato yymmddhh
       start_time = DateTime.strptime(params[:start_time].to_s,'%s').strftime("%y%m%d%H")
       start_timestamp = params[:start_time].to_f
 
+      Device.hours_with_points(imei)
 
 
     else
