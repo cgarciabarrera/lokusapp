@@ -274,45 +274,41 @@ class Device < ActiveRecord::Base
   end
 
 
-  def self.binary_search(array, value, from=0, to=nil)
-    if to == nil
-      to = array.count - 1
+  def self.find_closest(array, value,tmpmax==1)
+    p_from=0
+    p_max=array.count-1
+    p_to=p_max
+    if value>=array[p_to]
+      return p_to
+    elsif value<=array[0]
+      return 0
     end
 
-    mid = (from + to) / 2
-    leng=to-from
+    while
+      p_mid=(p_to+p_from) /2
+      p_valormid=array[p_mid]
 
 
-    if from < 0
-      return 0
+      if value < p_valormid
 
-    elsif leng==0
-      return to
+        p_to=p_mid-1
 
-    elsif leng <=1
+      elsif value > p_valormid
 
-        differenceu= array[to]-value
-        differenced= value-array[from]
+        p_from=p_mid+1
 
-
-      if differenceu>differenced
-        return to
       else
-        return from
+
+        return p_mid
       end
 
-
-    end
-
-
-    if value < array[mid]
-      return self.binary_search array, value, from, mid - 1
-    elsif value > array[mid]
-      return self.binary_search array, value, mid + 1, to
-    else
-
-
-      return mid
+      if p_to<p_from
+        if tmpmax==1
+          return p_from
+        else
+          return p_to
+        end
+      end
     end
   end
 
