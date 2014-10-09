@@ -48,6 +48,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
       if params[:imei].present? && params[:datetime].present? && params[:latitude].present? && params[:longitude].present? && params[:speed].present? && params[:altitude].present? && params[:course].present? && params[:extended].present?
 
+
         if Device.new_point(params[:imei], params[:datetime], params[:latitude], params[:longitude], params[:speed], params[:altitude], params[:course], params[:extended])
           api_ok(:imei=>params[:imei])
 
