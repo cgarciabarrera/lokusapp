@@ -169,6 +169,11 @@ class Device < ActiveRecord::Base
 
   end
 
+  def self.points_interval(imei, start_timestamp, end_timestamp)
+
+
+  end
+
 
   def self.new_point(device_imei, device_datetime, device_latitude, device_longitude, device_speed, device_altitude, device_course, device_extended)
 
@@ -196,7 +201,7 @@ class Device < ActiveRecord::Base
 
       @did = imei
 
-      t = DateTime.strptime(fix_time.to_s,'%s').strftime("%y%m%d%H")
+      t = DateTime.strptime(fix_time.to_s,'%s').strftime("%y%m%d%H").to_i
 
       #gps_data = "{:l => 2, :LN => 3, :tm => " + Time.now.to_f.to_s + "}"
 
@@ -224,7 +229,7 @@ class Device < ActiveRecord::Base
       expire_time = 31536000 #en segundos
 
       keyHour = @did.to_s + ":h"
-      keyData = @did.to_s + ":" +  t
+      keyData = @did.to_s + ":" +  t.to_s
       keyMinData = @did.to_s + ":m"
 
       #lista contenedora de horas con datos
@@ -250,5 +255,50 @@ class Device < ActiveRecord::Base
       false
     end
   end
+
+
+  def self.binary_search(array, value, from=0, to=nil)
+    if to == nil
+      to = array.count - 1
+    end
+
+    mid = (from + to) / 2
+    leng=to-from
+
+
+    if from < 0
+      return 0
+
+    elsif leng==0
+      return to
+
+    elsif leng <=1
+
+        differenceu= array[to]-value
+        differenced= value-array[from]
+
+
+      if differenceu>differenced
+        return to
+      else
+        return from
+      end
+
+
+    end
+
+
+    if value < array[mid]
+      return self.binary_search array, value, from, mid - 1
+    elsif value > array[mid]
+      return self.binary_search array, value, mid + 1, to
+    else
+
+
+      return mid
+    end
+  end
+
+
 
 end

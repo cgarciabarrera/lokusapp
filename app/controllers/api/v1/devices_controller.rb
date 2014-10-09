@@ -88,6 +88,29 @@ class Api::V1::DevicesController < Api::V1::CommonController
     end
   end
 
+  def device_last_points_by_interval
+
+    if params[:end_time].present?
+      end_time = DateTime.strptime(params[:end_time].to_s,'%s').strftime("%y%m%d%H")
+      end_timestamp = params[:end_time].to_f
+
+    else
+      end_time = 0
+    end
+
+    if params[:start_time].present? && params[:imei].present?
+      #paso todo formato yymmddhh
+      start_time = DateTime.strptime(params[:start_time].to_s,'%s').strftime("%y%m%d%H")
+      start_timestamp = params[:start_time].to_f
+
+
+
+    else
+      api_error("Missing params", 401)
+    end
+
+  end
+
   def device_last_points
 
     #recibe imei y cintidad de puntos
@@ -119,7 +142,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
       end
 
     else
-
+      api_error("Missing params", 401)
     end
 
   end

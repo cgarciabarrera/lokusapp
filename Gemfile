@@ -26,6 +26,7 @@ gem "capistrano", "~> 2.13.4"
 gem 'rvm-capistrano'
 
 
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_20]
