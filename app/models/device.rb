@@ -274,7 +274,7 @@ class Device < ActiveRecord::Base
   end
 
 
-  def self.find_closest(array, value,tmpmax==1)
+  def self.find_closest(array, value,tmpmax=1)
     p_from=0
     p_max=array.count-1
     p_to=p_max
