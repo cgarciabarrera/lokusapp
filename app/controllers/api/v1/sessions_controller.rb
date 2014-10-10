@@ -13,7 +13,7 @@ class Api::V1::SessionsController < DeviseController
       resource = renew_authentication_token(resource)
       #sign_in("user", resource) no vamos a utilizar sesiones
       #api_ok( :auth_token=>resource.authentication_token)
-      render :json=> {:success=>true, :auth_token=>resource.authentication_token, :id=>resource.id}
+      render :json=> {:success=>true, :auth_token=>$redis.keys("*:u:" + resource.id.to_s).first.split(":")[1], :id=>resource.id}
       return
     end
     invalid_login_attempt
@@ -39,7 +39,7 @@ class Api::V1::SessionsController < DeviseController
 
   def renew_authentication_token(user)
     if user
-      user.authentication_token = nil
+      #user.authentication_token = nil
       user.save!
     end
     user

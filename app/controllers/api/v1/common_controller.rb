@@ -14,8 +14,11 @@ class Api::V1::CommonController < ApplicationController
 
   def set_user
     if params[:user_token].present?
-      user = User.find_by_authentication_token(params[:user_token].to_s)
-      if user
+      #user = User.find_by_authentication_token(params[:user_token].to_s)
+      #if user
+      user = $redis.get($redis.keys("t:"+ params[:user_token] + ":*").first)
+
+      if user.present?
         @user = user
       else
         api_error("no user", 401)

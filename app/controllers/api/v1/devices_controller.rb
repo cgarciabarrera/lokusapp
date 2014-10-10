@@ -11,7 +11,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
       d =Device.new
       d.imei = params[:imei]
       d.name = params[:name]
-      d.user = @user
+      d.user_id = @user
       d.type_id = params[:type_id]
       d.active = true
       d.available = true
@@ -72,7 +72,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
     #ver si el user tiene ese device
 
     if params[:imei].present? && params[:datetime].present? && params[:latitude].present? && params[:longitude].present? && params[:speed].present? && params[:altitude].present? && params[:course].present? && params[:extended].present?
-      if imei_belongs_to_user?(params[:imei], @user.id )
+      if imei_belongs_to_user?(params[:imei], @user )
         if Device.new_point(params[:imei], params[:datetime], params[:latitude], params[:longitude], params[:speed], params[:altitude], params[:course], params[:extended])
           api_ok(:imei=>params[:imei])
 
@@ -152,7 +152,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
   def list_own_devices
 
-    if @user.present?
+
       points_quantity = 0
       if params[:points].present?
 
@@ -160,7 +160,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
       end
       devices=[]
       device =  Hash.new
-      $redis.smembers("u:" + @user.id.to_s).each do |q|
+      $redis.smembers("u:" + @user.to_s).each do |q|
 
         p = $redis.hgetall(q + ":d")
         device["device_id"]=p["dev"]
@@ -182,7 +182,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
       api_ok(:devices=>devices)
 
-    end
+
   end
 
 

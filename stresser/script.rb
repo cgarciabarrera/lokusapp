@@ -29,19 +29,22 @@ actual_line = 0
       #p data[0] + "---" + data[1]
 
 
-      url = URI.parse("http://localhost:3000/api/v1/devices/new_point?imei=" + imei + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
-      open(url) do |http|
-        #        response = http.read
-        #  puts "response: #{response.inspect}"
+      url = URI.parse("http://localhost:3000/devices/new_point?imei=" + imei + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
+      begin
+        open(url) do |http|
+          #        response = http.read
+          #  puts "response: #{response.inspect}"
+        end
+      rescue
       end
 
-      p "latitude=" + data[0] + "&longitude=" + data[1]
+#      p "latitude=" + data[0] + "&longitude=" + data[1]
       i = i + 1
       if i % 1000 == 0
-  #      p "1000 mas"
+        p "1000 mas del imei " + imei.to_s
       end
 
-      #sleep 0.1
+      sleep 1
 
     end
 
