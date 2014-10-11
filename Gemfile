@@ -20,7 +20,8 @@ gem "redis", "~> 3.0.1"
 gem "hiredis", "~> 0.4.5"
 
 gem 'newrelic_rpm'
-
+gem 'newrelic_plugin', '1.3.1'
+gem 'dante', '0.2.0'
 
 gem "capistrano", "~> 2.13.4"
 gem 'rvm-capistrano'
