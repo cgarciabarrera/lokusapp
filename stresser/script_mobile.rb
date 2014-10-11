@@ -40,7 +40,8 @@ i = 0
               #p auth
             end
           end
-        rescue
+        rescue Exception
+          puts $!, $@
         end
       end
 
@@ -51,8 +52,8 @@ i = 0
           response["success"] ? "OK" : "Error"
           #  puts "response: #{response.inspect}"
         end
-      rescue
-        p "Mal"
+      rescue Exception
+        puts $!, $@
       end
 
 

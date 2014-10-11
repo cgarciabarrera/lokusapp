@@ -35,16 +35,18 @@ actual_line = 0
 #        response = http.read
 #  puts "response: #{response.inspect}"
         end
-      rescue
+      rescue Exception
+        puts $!, $@
+
       end
 
 #      p "latitude=" + data[0] + "&longitude=" + data[1]
       i = i + 1
       if i % 1000 == 0
-        p "1000 mas del imei " + imei.to_s
+       # p "1000 mas del imei " + imei.to_s
       end
 
-      sleep 1
+      sleep 0.5
 
     end
 
