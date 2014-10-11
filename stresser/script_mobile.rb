@@ -31,7 +31,7 @@ i = 0
 
       if i % 50 == 0
 
-        url = URI.parse("http://localhost:3000/api/v1/sessions/?email=pepe_stress" + imei + "@pepe.com&password=Pepe0101")
+        url = URI.parse("http://new.lokusapp.com/api/v1/sessions/?email=pepe_stress" + imei + "@pepe.com&password=Pepe0101")
         begin
           open(url) do |http|
             response = JSON.parse(http.read)
@@ -44,11 +44,11 @@ i = 0
         end
       end
 
-      url = URI.parse("http://localhost:3000/api/v1/devices/new_point_mobile?user_token=" + auth + "&imei=" + (imei.to_i + 1000).to_s + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
+      url = URI.parse("http://new.lokusapp.com/api/v1/devices/new_point_mobile?user_token=" + auth + "&imei=" + (imei.to_i + 1000).to_s + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
       begin
         open(url) do |http|
-                  response = JSON.parse(http.read)
-                  response["success"] ? "OK" : "Error"
+          response = JSON.parse(http.read)
+          response["success"] ? "OK" : "Error"
           #  puts "response: #{response.inspect}"
         end
       rescue

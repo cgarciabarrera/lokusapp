@@ -29,11 +29,11 @@ actual_line = 0
       #p data[0] + "---" + data[1]
 
 
-      url = URI.parse("http://localhost:3000/devices/new_point?imei=" + imei + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
+      url = URI.parse("http://new.lokusapp.com/api/v1/devices/new_point?imei=" + imei + "&datetime=" + Time.now.to_f.to_s + "&accuracy=0&latitude=" + data[0] + "&longitude=" + data[1] + "&speed=89&altitude=5&course=23&extended=r")
       begin
         open(url) do |http|
-          #        response = http.read
-          #  puts "response: #{response.inspect}"
+#        response = http.read
+#  puts "response: #{response.inspect}"
         end
       rescue
       end
