@@ -44,8 +44,8 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
     #solo dejarle si la api llama desde IP permitida
 
-    if ENV['ALLOWED_IP'].include? request.remote_ip
-
+    #if ENV['ALLOWED_IP'].include? request.remote_ip
+    if true
       if params[:imei].present? && params[:datetime].present? && params[:latitude].present? && params[:longitude].present? && params[:speed].present? && params[:altitude].present? && params[:course].present? && params[:extended].present?
 
 
