@@ -192,21 +192,23 @@ class Api::V1::DevicesController < Api::V1::CommonController
     #recibo device_id y email o nick de con quien comparto
 
 
-    if params[:imei].present?
+    if params[:imei].present? && params[:email].present?
 
 
       imei = params[:imei]
+      user_shared  = User.find_by_email(params[:imei]).first
 
       if imei_belongs_to_user?(imei, @user)
-        device = Device.where("imei = ?", imei)
-        unless device.present?
-          api_error("")
-
-        end
-
+        device = Device.where("imei = ?", imei).first
+        s = Shared.new
+        s.user = @user
+        s.device = device
+        s.user_shared_id = user_shared
+        s.save
+        api_ok("OK")
 
       else
-        api_error()
+        api_error("Not belongs to you", 200)
       end
 
     end

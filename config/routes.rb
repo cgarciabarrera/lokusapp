@@ -55,6 +55,8 @@ Lokusapp::Application.routes.draw do
           get :device_last_points
           post :device_last_points
 
+          get :share_with
+          post :share_with
 
         end
 
