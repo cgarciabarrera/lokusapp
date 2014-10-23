@@ -14,6 +14,8 @@ class Device < ActiveRecord::Base
 
   belongs_to :user
 
+  has_many :shareds
+
   scope :mine, (lambda do |user|
     where('user_id = ?', user.id)
   end)
@@ -33,6 +35,18 @@ class Device < ActiveRecord::Base
 
     #    $redis.hgetall(self.imei.to_s + ":d")
 
+
+  end
+
+  def self.share_with(imei, user, user_shared_to )
+
+    #verificar que el imei sea del usuario,
+    #verificar que el destinatario exista
+
+
+      s = Shared.new
+      s.user_id = user
+      s.de
 
   end
 
@@ -134,6 +148,8 @@ class Device < ActiveRecord::Base
     $redis.hset(self.imei.to_s + ":d" , "usr", self.user.id.to_s)
     $redis.hset(self.imei.to_s + ":d", "dev", self.id.to_s)
     $redis.hset(self.imei.to_s + ":d", "tim", 0)
+    $redis.hset(self.imei.to_s + ":d", "name", self.name.to_s)
+
 
     $redis.sadd("u:" + self.user.id.to_s, self.imei.to_s)
 

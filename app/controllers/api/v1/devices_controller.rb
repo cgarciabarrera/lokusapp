@@ -167,6 +167,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
         device["imei"] = q
 
+        device["name"]=p["name"].present? ? p["name"] : nil
         device["lat"]=p["lat"].present? ? p["lat"] : nil
         device["lon"]=p["lon"].present? ? p["lon"] : nil
         device["tim"]=p["tim"].present? ? p["tim"] : nil
@@ -180,12 +181,37 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
       end
 
+
+
       api_ok(:devices=>devices)
 
 
   end
 
+  def share_with
+    #recibo device_id y email o nick de con quien comparto
 
 
+    if params[:imei].present?
+
+
+      imei = params[:imei]
+
+      if imei_belongs_to_user?(imei, @user)
+        device = Device.where("imei = ?", imei)
+        unless device.present?
+          api_error("")
+
+        end
+
+
+      else
+        api_error()
+      end
+
+    end
+
+
+  end
 
 end

@@ -7,6 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 # Environment variables (ENV['...']) can be set in the file config/application.yml.
 # See http://railsapps.github.io/rails-environment-variables.html
+
+$redis.flushdb
+
+
 puts 'ROLES'
 YAML.load(ENV['ROLES']).each do |role|
   Role.find_or_create_by_name(role)
@@ -17,22 +21,30 @@ user = User.find_or_create_by_email :name => ENV['ADMIN_NAME'].dup, :email => EN
 puts 'user: ' << user.name
 user.add_role :admin
 
-$redis.flushdb
+
+Device.create(:name => "Device 0", :imei => "0", :user => User.first)
+
+u = User.create(:name => "Carlos 1", :email => "user1@example.com", :password => "changeme")
+Device.create(:name => "Device 1", :imei => "1", :user => u)
+
+
+u = User.create(:name => "Carlos 2", :email => "user2@example.com", :password => "changeme")
+Device.create(:name => "Device 2", :imei => "2", :user => u)
 
 
 
 
-10.times.each do |dd|
-  d = dd + 1
-  Device.create(:imei => d.to_s, :user => User.last, :name => "Device " + d.to_s)
-  4.times.each_with_index do |x, p|
-    Device.new_point(d.to_s,(Time.now - (400 - p).hours).to_f,(1 + (p/200.to_f)).to_f,(7 + (p/200.to_f)).to_f,(190 + (p/200.to_f)).to_f,120,34,nil)
-  end
-  p "creando device " +  d.to_s
-end
-
-
-Device.create(:imei => "862304020094218", :user => User.last, :name => "Moto Luis") #862304020094218
-Device.create(:imei => "359710041641748", :user => User.last, :name => "Jaguar Luis") #862304020094218
-Device.create(:imei => "359710041641623", :user => User.last, :name => "Mazda Carlos") #862304020094218
+# 10.times.each do |dd|
+#   d = dd + 1
+#   Device.create(:imei => d.to_s, :user => User.last, :name => "Device " + d.to_s)
+#   4.times.each_with_index do |x, p|
+#     Device.new_point(d.to_s,(Time.now - (400 - p).hours).to_f,(1 + (p/200.to_f)).to_f,(7 + (p/200.to_f)).to_f,(190 + (p/200.to_f)).to_f,120,34,nil)
+#   end
+#   p "creando device " +  d.to_s
+# end
+#
+#
+# Device.create(:imei => "862304020094218", :user => User.last, :name => "Moto Luis") #862304020094218
+# Device.create(:imei => "359710041641748", :user => User.last, :name => "Jaguar Luis") #862304020094218
+# Device.create(:imei => "359710041641623", :user => User.last, :name => "Mazda Carlos") #862304020094218
 
