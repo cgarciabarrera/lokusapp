@@ -5,7 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Lokusapp" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Lokusapp" %>">
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'web/animate', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'web/font-awesome', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'web/owl.carousel', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'web/jquery.fancybox', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'web/layerslider/layerslider', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag 'web/styles', media: 'all', 'data-turbolinks-track' => true %>
+
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
