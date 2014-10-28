@@ -11,4 +11,7 @@
 // about supported directives.
 //
 
+//= require jquery.min
+
+
 //= require_tree .
