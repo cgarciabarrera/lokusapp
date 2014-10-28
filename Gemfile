@@ -14,6 +14,7 @@ gem 'figaro'
 gem 'mysql2'
 gem 'rolify'
 gem 'therubyracer', :platform=>:ruby
+gem 'geocoder'
 
 
 gem "redis", "~> 3.0.1"
