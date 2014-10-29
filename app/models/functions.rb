@@ -51,6 +51,11 @@ class Functions
 
   end
 
+  def self.distance_in_km(lat1, lon1, lat2, lon2)
+
+    Geocoder::Calculations.distance_between([lat1,lon1], [lat2,lon2], :units => :km)
+  end
+
 
   def self.find_closest(array, value,tmpmax = 1)
 

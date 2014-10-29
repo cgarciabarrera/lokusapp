@@ -77,6 +77,7 @@ GEM
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
+    geocoder (1.2.5)
     grit (2.5.0)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
@@ -232,6 +233,7 @@ DEPENDENCIES
   dante (= 0.2.0)
   devise
   figaro
+  geocoder
   hiredis (~> 0.4.5)
   jazz_hands
   jbuilder (~> 1.2)
