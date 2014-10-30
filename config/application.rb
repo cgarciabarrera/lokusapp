@@ -14,7 +14,7 @@ module Lokusapp
 
 
     config.i18n.enforce_available_locales = true
-    
+
     config.generators do |g|
       
       

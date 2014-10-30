@@ -11,7 +11,19 @@
 // about supported directives.
 //
 
+
+
 //= require jquery.min
 
+//= require jquery.fancybox.pack
+//= require jquery.isotope.min
+//= require owl.carousel.min
+//= require jquery-ui.min
+//= require layerslider/js/greensock
+//= require layerslider/js/layerslider.kreaturamedia.jquery
+//= require layerslider/js/layerslider.transitions
+//= require wow.min
+//= require scripts
 
-//= require_tree .
+
+
