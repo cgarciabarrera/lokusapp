@@ -275,10 +275,10 @@ $(function()
 	/**/
 	jQuery(document).ready( function (){
 		window.slider_bg = {"ind":0, // index to start sliding at
-							"source":["pic/slider/bg_slide1.jpg", //replace these slides with your own ones
-									  "pic/slider/bg_slide2.jpg",
-									  "pic/slider/bg_slide3.jpg",
-									  "pic/slider/bg_slide4.jpg"],
+							"source":["/assets/pic/slider/bg_slide1.jpg", //replace these slides with your own ones
+									  "/assets/pic/slider/bg_slide2.jpg",
+									  "/assets/pic/slider/bg_slide3.jpg",
+									  "/assets/pic/slider/bg_slide4.jpg"],
 							"bg_container":jQuery("#bg_container"),
 							"bg_substrate":jQuery("#bg_substrate")};
 		window.slider_bg.bg_container.css( "background-image","url(" + window.slider_bg.source[window.slider_bg.ind] + ")" );

@@ -15,7 +15,16 @@
 
 //= require jquery.min
 
+//= require retina.min
+
+//= require jquery.fancybox-media
 //= require jquery.fancybox.pack
+//= require jquery.form.min
+//= require jquery.migrate.min
+//= require jquery.tweet
+//= require jquery.validate.min
+//= require SmoothScroll
+//= require jquery.countdown.min
 //= require jquery.isotope.min
 //= require owl.carousel.min
 //= require jquery-ui.min
@@ -23,6 +32,7 @@
 //= require layerslider/js/layerslider.kreaturamedia.jquery
 //= require layerslider/js/layerslider.transitions
 //= require wow.min
+//= require parallax
 //= require scripts
 
 
