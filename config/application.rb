@@ -12,6 +12,9 @@ Bundler.require(:default, Rails.env)
 module Lokusapp
   class Application < Rails::Application
 
+
+    config.i18n.enforce_available_locales = true
+    
     config.generators do |g|
       
       
