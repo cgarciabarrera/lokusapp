@@ -1,7 +1,7 @@
 <header id="page-header-bottom" class="page-header-bottom">
   <div class="grid-row">
     <!-- logo -->
-    <a href="index.html" class="logo">
+    <a href="/" class="logo">
       <img src="/assets/img/logo.png" alt="">
     </a>
     <!--/ logo -->
@@ -10,7 +10,7 @@
     <nav class="main-nav">
       <ul>
         <li>
-          <a href="index.html" class="active">Home</a>
+          <a href="/" class= <%= params[:controller] == "home" ? "active": "" %>> Home</a>
           <ul>
             <li><a href="index.html" class="active">Default Style</a></li>
             <li><a href="index-blog.html">Blog Style</a></li>
