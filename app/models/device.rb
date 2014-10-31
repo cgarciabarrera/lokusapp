@@ -55,6 +55,8 @@ class Device < ActiveRecord::Base
     s.device = device
     s.user_shared_id = user_shared_to
     if s.save
+
+      $redis.sadd("us:" + user.to_s, imei.to_s)
       true
     else
       false
@@ -71,6 +73,8 @@ class Device < ActiveRecord::Base
     device = Device.where("imei = ?", imei).first
 
     Shared.where(:user_id => user, :device => device, :user_shared_id => user_shared_to).destroy_all
+
+    $redis.srem("us:" + user.to_s, imei.to_s)
 
   end
 
