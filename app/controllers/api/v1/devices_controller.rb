@@ -205,19 +205,71 @@ class Api::V1::DevicesController < Api::V1::CommonController
         api_error("Error user",200)
         return
       end
-
+      if @user == user_shared.id.to_s
+        api_error("share with yourself not allowed", 200)
+        return
+      end
       if imei_belongs_to_user?(imei, @user)
 
         #borro lo existente antes que sea igual
 
-        Shared.where()
+
 
         device = Device.where("imei = ?", imei).first
+
+        Shared.where(:user_id => @user, :device => device, :user_shared => user_shared).destroy_all
+
         s = Shared.new
         s.user_id = @user
         s.device = device
         s.user_shared = user_shared
         s.save
+
+        api_ok("OK")
+
+      else
+        api_error("Not belongs to you", 200)
+      end
+    else
+      api_error("Missing params",200)
+    end
+
+
+  end
+
+
+  def unshare
+    #recibo device_id y email o nick de con quien comparto
+
+
+    if params[:imei].present? && params[:email].present?
+
+
+      imei = params[:imei]
+      user_shared  = User.where("email = ?",params[:email])
+
+      if user_shared.present?
+        user_shared = user_shared.first
+
+      else
+        api_error("Error user",200)
+        return
+      end
+      if @user == user_shared.id.to_s
+        api_error("share with yourself not allowed", 200)
+        return
+      end
+      if imei_belongs_to_user?(imei, @user)
+
+        #borro lo existente antes que sea igual
+
+
+
+        device = Device.where("imei = ?", imei).first
+
+        Shared.where(:user_id => @user, :device => device, :user_shared => user_shared).destroy_all
+
+
 
         api_ok("OK")
 

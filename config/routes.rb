@@ -64,6 +64,9 @@ Lokusapp::Application.routes.draw do
           get :share_with
           post :share_with
 
+          get :unshare
+          post :unshare
+
         end
 
       end
