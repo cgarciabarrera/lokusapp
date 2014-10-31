@@ -196,21 +196,36 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
 
       imei = params[:imei]
-      user_shared  = User.find_by_email(params[:imei]).first
+      user_shared  = User.where("email = ?",params[:email])
+
+      if user_shared.present?
+        user_shared = user_shared.first
+
+      else
+        api_error("Error user",200)
+        return
+      end
 
       if imei_belongs_to_user?(imei, @user)
+
+        #borro lo existente antes que sea igual
+
+        Shared.where()
+
         device = Device.where("imei = ?", imei).first
         s = Shared.new
-        s.user = @user
+        s.user_id = @user
         s.device = device
-        s.user_shared_id = user_shared
+        s.user_shared = user_shared
         s.save
+
         api_ok("OK")
 
       else
         api_error("Not belongs to you", 200)
       end
-
+    else
+      api_error("Missing params",200)
     end
 
 
