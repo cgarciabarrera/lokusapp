@@ -215,15 +215,9 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
 
 
-        device = Device.where("imei = ?", imei).first
 
-        Shared.where(:user_id => @user, :device => device, :user_shared => user_shared).destroy_all
 
-        s = Shared.new
-        s.user_id = @user
-        s.device = device
-        s.user_shared = user_shared
-        s.save
+        Device.share_with(imei, @user, user_shared.id)
 
         api_ok("OK")
 
@@ -263,13 +257,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
         #borro lo existente antes que sea igual
 
-
-
-        device = Device.where("imei = ?", imei).first
-
-        Shared.where(:user_id => @user, :device => device, :user_shared => user_shared).destroy_all
-
-
+        Device.unshare(imei, @user, user_shared.id)
 
         api_ok("OK")
 

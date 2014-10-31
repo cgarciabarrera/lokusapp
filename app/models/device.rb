@@ -46,10 +46,31 @@ class Device < ActiveRecord::Base
     #verificar que el imei sea del usuario,
     #verificar que el destinatario exista
 
+    device = Device.where("imei = ?", imei).first
 
-      s = Shared.new
-      s.user_id = user
-      s.de
+    Shared.where(:user_id => user, :device => device, :user_shared_id => user_shared_to).destroy_all
+
+    s = Shared.new
+    s.user_id = user
+    s.device = device
+    s.user_shared_id = user_shared_to
+    if s.save
+      true
+    else
+      false
+    end
+
+
+  end
+
+  def self.unshare(imei, user, user_shared_to )
+
+    #verificar que el imei sea del usuario,
+    #verificar que el destinatario exista
+
+    device = Device.where("imei = ?", imei).first
+
+    Shared.where(:user_id => user, :device => device, :user_shared_id => user_shared_to).destroy_all
 
   end
 
