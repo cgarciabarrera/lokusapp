@@ -8,7 +8,6 @@ Lokusapp::Application.routes.draw do
     end
 
 
-
     member do
 
       get :new_point1
@@ -25,6 +24,13 @@ Lokusapp::Application.routes.draw do
 
   end
 
+  resources :cart do
+
+  end
+
+  resources :item do
+
+  end
 
   namespace :api do
     namespace :v1 do
@@ -61,7 +67,6 @@ Lokusapp::Application.routes.draw do
         end
 
       end
-
 
 
     end

@@ -2,48 +2,46 @@
 <html>
 
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Lokusapp" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Lokusapp" %>">
-    <%#= stylesheet_link_tag 'web/application', 'data-turbolinks-track' => true %>
-    <%= stylesheet_link_tag 'web/styles' %>
-    <%= stylesheet_link_tag 'web/font-awesome' %>
-    <%= stylesheet_link_tag 'web/jquery.fancybox' %>
-    <%= stylesheet_link_tag 'web/owl.carousel' %>
-    <%= stylesheet_link_tag 'web/animate' %>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= content_for?(:title) ? yield(:title) : "Lokusapp" %></title>
+<meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Lokusapp" %>">
+<%#= stylesheet_link_tag 'web/application', 'data-turbolinks-track' => true %>
+<%= stylesheet_link_tag 'web/styles' %>
+<%= stylesheet_link_tag 'web/font-awesome' %>
+<%= stylesheet_link_tag 'web/jquery.fancybox' %>
+<%= stylesheet_link_tag 'web/owl.carousel' %>
+<%= stylesheet_link_tag 'web/animate' %>
 
-    <%= csrf_meta_tags %>
-  </head>
-  <body>
-  <div class="page">
-    <header>
+<%= csrf_meta_tags %>
+</head>
+<body>
+<div class="page">
+  <header>
 
-      <%= render 'layouts/web/navigation_top' %>
-      <%= render 'layouts/web/navigation_bottom' %>
-      <%= render 'layouts/web/messages' %>
-
-
-      <div id="page-header-bottom-holder" class="page-header-bottom-holder"></div>
+    <%= render 'layouts/web/navigation_top' %>
+    <%= render 'layouts/web/navigation_bottom' %>
+    <%= render 'layouts/web/messages' %>
 
 
-    </header>
+    <div id="page-header-bottom-holder" class="page-header-bottom-holder"></div>
 
 
-    <main role="main">
-      <%= render 'layouts/web/title' %>
+  </header>
 
 
-
-       <%= yield %>
-
-
+  <main role="main">
+    <%= render 'layouts/web/title' %>
+    <main class="page-content">
+      <%= yield %>
     </main>
-      <%= render 'layouts/web/footer_top' %>
-      <%= render 'layouts/web/footer_bottom' %>
 
-    </div>
+  </main>
+  <%= render 'layouts/web/footer_top' %>
+  <%= render 'layouts/web/footer_bottom' %>
 
-  <%= javascript_include_tag 'application' %>
+</div>
 
-  </body>
+<%= javascript_include_tag 'application' %>
+
+</body>
 </html>
