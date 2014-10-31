@@ -6,6 +6,9 @@ class Device < ActiveRecord::Base
 
   after_destroy :remove_device_from_redis
 
+  after_update :update_device_on_redis
+
+
   validates :name, presence: true
 
   validates :user, presence: true
@@ -137,6 +140,12 @@ class Device < ActiveRecord::Base
     end
 
     c
+
+  end
+
+  def update_device_on_redis
+
+    $redis.hset(self.imei.to_s + ":d", "name", self.name.to_s)
 
   end
 
