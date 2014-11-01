@@ -45,22 +45,33 @@
       <!--/ cart summary -->
     </div>
 
+
+
+    <% if current_user.present? %>
+        <div class="row">
+          <div class="cart-summary-right">
+
+            <span><%= link_to "Log out", destroy_user_session_path %></span>
+
+          </div>
+        </div>
+    <% end %>
+
     <div class="row">
       <!-- follow us -->
       <div class="cart-summary-right">
-        <i class="fa fa-key"></i>
-        <span>Log in </span>
+
+        <% unless current_user.present? %>
+            <i class="fa fa-key"></i>
+            <span><%= link_to "Log in", new_user_session_path %></span>
+        <% else %>
+            <i class="fa fa-asterisk"></i>
+            <span>Hola, <%= current_user.name %></span>
+        <% end %>
       </div>
 
-      <!--/ follow us -->
-    </div>
 
-    <div class="row">
-      <!-- follow us -->
-      <div class="cart-summary-right">
-        <i class="fa fa-key"></i>
-        <span>Log in </span>
-      </div>
+
 
       <!--/ follow us -->
     </div>
