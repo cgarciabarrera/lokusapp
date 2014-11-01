@@ -50,7 +50,7 @@
     <% if current_user.present? %>
         <div class="row">
           <div class="cart-summary-right">
-
+            <i class="fa fa-share"></i>
             <span><%= link_to "Log out", destroy_user_session_path %></span>
 
           </div>
@@ -65,7 +65,7 @@
             <i class="fa fa-key"></i>
             <span><%= link_to "Log in", new_user_session_path %></span>
         <% else %>
-            <i class="fa fa-asterisk"></i>
+            <i class="fa  fa-meh-o"></i>
             <span>Hola, <%= current_user.name %></span>
         <% end %>
       </div>
