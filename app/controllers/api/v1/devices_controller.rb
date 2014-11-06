@@ -122,7 +122,8 @@ class Api::V1::DevicesController < Api::V1::CommonController
       points_quantity = params[:points].to_i
       imei = params[:imei]
 
-      if imei_belongs_to_user?(imei, @user)
+      if imei_belongs_to_user?(imei, @user) || imei_is_shared_to_user?(imei, @user)
+
         device =  Hash.new
 
         p = $redis.hgetall(imei + ":d")

@@ -33,7 +33,11 @@ class Api::V1::CommonController < ApplicationController
     $redis.smembers("u:" + user_id.to_s).include? imei
 
   end
+  def imei_is_shared_to_user?(imei, user_id)
 
+    $redis.smembers("us:" + user_id.to_s).include? imei
+
+  end
 
 
 
