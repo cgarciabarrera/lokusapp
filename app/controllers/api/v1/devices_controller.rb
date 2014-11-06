@@ -166,6 +166,35 @@ class Api::V1::DevicesController < Api::V1::CommonController
         device["device_id"]=p["dev"]
 
         device["imei"] = q
+        device["own"] = 1
+        device["alarms"] = 0
+
+        device["name"]=p["name"].present? ? p["name"] : nil
+        device["lat"]=p["lat"].present? ? p["lat"] : nil
+        device["lon"]=p["lon"].present? ? p["lon"] : nil
+        device["tim"]=p["tim"].present? ? p["tim"] : nil
+        if points_quantity > 1
+          device[:last_points] = Device.last_x_points(q, points_quantity)
+
+        end
+
+        devices.push device.clone
+        device.clear
+
+      end
+
+      #esto me da los compartidos
+
+      $redis.smembers("us:" + @user.to_s).each do |q|
+
+        p = $redis.hgetall(q + ":d")
+        device["device_id"]=p["dev"]
+
+        device["imei"] = q
+
+        device["own"] = 0
+
+        device["alarms"] = 0
 
         device["name"]=p["name"].present? ? p["name"] : nil
         device["lat"]=p["lat"].present? ? p["lat"] : nil
@@ -215,15 +244,9 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
 
 
-        device = Device.where("imei = ?", imei).first
 
-        Shared.where(:user_id => @user, :device => device, :user_shared => user_shared).destroy_all
 
-        s = Shared.new
-        s.user_id = @user
-        s.device = device
-        s.user_shared = user_shared
-        s.save
+        Device.share_with(imei, @user, user_shared.id)
 
         api_ok("OK")
 
@@ -263,13 +286,7 @@ class Api::V1::DevicesController < Api::V1::CommonController
 
         #borro lo existente antes que sea igual
 
-
-
-        device = Device.where("imei = ?", imei).first
-
-        Shared.where(:user_id => @user, :device => device, :user_shared => user_shared).destroy_all
-
-
+        Device.unshare(imei, @user, user_shared.id)
 
         api_ok("OK")
 

@@ -10,76 +10,25 @@
     <nav class="main-nav">
       <ul>
         <li>
-          <a href="/" class= <%= params[:controller] == "home" ? "active": "" %>> Home</a>
+          <a href="/" class= <%= params[:controller] == "home" ? "active": "" %>><span class="fa fa-home"></span> Inicio</a>
+
+        </li>
+        <li>
+          <a href="#"><span class="fa fa-map-marker"></span> Localizadores</a>
           <ul>
-            <li><a href="index.html" class="active">Default Style</a></li>
-            <li><a href="index-blog.html">Blog Style</a></li>
-            <li><a href="index-parallax.html">Parallax Style</a></li>
-            <li><a href="index-video.html">Background Video</a></li>
+            <li><a href="woo-ready.html"><span class="fa fa-phone"></span> App. movil</a></li>
+            <li><a href="woo-ready.html"><span class="fa fa-car"></span> Para coche</a></li>
+            <li><a href="woo-ready.html"><span class="fa fa-bicycle"></span> Para motocicleta</a></li>
+            <li><a href="woo-ready.html"><span class="fa fa-users"></span> Para personas</a></li>
+            <li><a href="woo-ready.html"><span class="fa fa-refresh"></span> Portátiles</a></li>
+
           </ul>
         </li>
         <li>
-          <a href="#">Features</a>
-          <ul>
-            <li><a href="iOS8-inspired.html">iOS8 Inspired Design</a></li>
-            <li><a href="woo-ready.html">Woo-Ready</a></li>
-            <li>
-              <a href="#">Content Elements</a>
-              <ul>
-                <li><a href="feature-accordion.html">Accordion</a></li>
-                <li><a href="feature-buttons.html">Buttons</a></li>
-                <li><a href="feature-callout.html">Callout</a></li>
-                <li><a href="feature-chart-graph.html">Chart Graph</a></li>
-                <li><a href="feature-chart-pie.html">Chart Pie</a></li>
-                <li><a href="feature-chart-circle.html">Chart Circle</a></li>
-                <li><a href="feature-columns.html">Columns</a></li>
-                <li><a href="feature-dividers.html">Dividers</a></li>
-                <li><a href="feature-icons.html">Icons</a></li>
-                <li><a href="feature-lists.html">Lists</a></li>
-                <li><a href="feature-messages.html">Messages</a></li>
-                <li><a href="feature-milestone.html">Milestone</a></li>
-                <li><a href="feature-pricing-table.html">Pricing Table</a></li>
-                <li><a href="feature-progress-bar.html">Progress Bar</a></li>
-                <li><a href="feature-services.html">Services</a></li>
-                <li><a href="feature-tabs.html">Tabs</a></li>
-                <li><a href="feature-team.html">Team</a></li>
-                <li><a href="feature-testimonials.html">Testimonials</a></li>
-                <li><a href="feature-toggle.html">Toggle</a></li>
-                <li><a href="feature-twitter.html">Twitter</a></li>
-                <li><a href="feature-twitter-carousel.html">Twitter Carousel</a></li>
-                <li><a href="feature-video.html">Video</a></li>
-              </ul>
-            </li>
-          </ul>
+          <%= link_to "F.A.Q.", faq_index_path, :class => params[:controller] == "faq" ? "active": ""   %>
+
         </li>
-        <li>
-          <a href="#">Pages</a>
-          <ul>
-            <li><a href="page-404.html">404 page</a></li>
-            <li><a href="page-about.html">About us</a></li>
-            <li><a href="page-coming.html">Coming soon</a></li>
-            <li><a href="page-faq.html">FAQ</a></li>
-            <li><a href="page-team.html">Our team</a></li>
-            <li><a href="page-process.html">Our process</a></li>
-            <li><a href="page-progress.html">Our progress</a></li>
-            <li><a href="page-services.html">Our services</a></li>
-            <li><a href="page-sitemap.html">Sitemap</a></li>
-            <li><a href="page-sidebar-one.html">With one sidebar</a></li>
-            <li><a href="page-sidebar-two.html">With two sidebars</a></li>
-            <li><a href="page-sidebar-none.html">Full width</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">Portfolio</a>
-          <ul>
-            <li><a href="portfolio-four.html">Four columns</a></li>
-            <li><a href="portfolio-three.html">Three columns</a></li>
-            <li><a href="portfolio-two.html">Two columns</a></li>
-            <li><a href="portfolio-one.html">One column</a></li>
-            <li><a href="portfolio-gallery.html">Gallery</a></li>
-            <li><a href="portfolio-single.html">Single item</a></li>
-          </ul>
-        </li>
+
         <li>
           <a href="#">Blog</a>
           <ul>
@@ -91,15 +40,15 @@
           </ul>
         </li>
         <li>
-          <a href="/" class= <%=( [ "cart", "item"].include? params[:controller]) ? "active" : ""  %>> Shop</a
+          <%= link_to "Catalog", item_index_path   %>
           <ul>
             <li><%= link_to "Catalog", item_index_path   %></li>
-            <li><%= link_to "Cart",  cart_index_path  %>></li>
+            <li><%= link_to "Cart",  cart_index_path  %></li>
 
           </ul>
         </li>
         <li>
-          <a href="contacts.html">Contacts</a>
+          <a href="contacts.html">Contacto</a>
         </li>
       </ul>
     </nav>
@@ -109,7 +58,7 @@
     <nav id="mobile-nav" class="mobile-nav">
       <a href="#mobile-nav-1" class="switcher"><i class="fa fa-align-justify"></i></a>
       <ul id="mobile-nav-1">
-        <li><a href="#mobile-nav-7" class="opener active"><i class="fa fa-angle-right"></i>Home</a></li>
+        <li><a href="#mobile-nav-7" class="opener active"><i class="fa fa-angle-right"></i><span class="fa fa-home"></span> Inicio</a></li>
         <li><a href="#mobile-nav-2" class="opener"><i class="fa fa-angle-right"></i>Features</a></li>
         <li><a href="#mobile-nav-3" class="opener"><i class="fa fa-angle-right"></i>Pages</a></li>
         <li><a href="#mobile-nav-4" class="opener"><i class="fa fa-angle-right"></i>Portfolio</a></li>

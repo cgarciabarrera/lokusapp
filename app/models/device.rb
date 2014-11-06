@@ -6,6 +6,9 @@ class Device < ActiveRecord::Base
 
   after_destroy :remove_device_from_redis
 
+  after_update :update_device_on_redis
+
+
   validates :name, presence: true
 
   validates :user, presence: true
@@ -43,10 +46,35 @@ class Device < ActiveRecord::Base
     #verificar que el imei sea del usuario,
     #verificar que el destinatario exista
 
+    device = Device.where("imei = ?", imei).first
 
-      s = Shared.new
-      s.user_id = user
-      s.de
+    Shared.where(:user_id => user, :device => device, :user_shared_id => user_shared_to).destroy_all
+
+    s = Shared.new
+    s.user_id = user
+    s.device = device
+    s.user_shared_id = user_shared_to
+    if s.save
+
+      $redis.sadd("us:" + user.to_s, imei.to_s)
+      true
+    else
+      false
+    end
+
+
+  end
+
+  def self.unshare(imei, user, user_shared_to )
+
+    #verificar que el imei sea del usuario,
+    #verificar que el destinatario exista
+
+    device = Device.where("imei = ?", imei).first
+
+    Shared.where(:user_id => user, :device => device, :user_shared_id => user_shared_to).destroy_all
+
+    $redis.srem("us:" + user.to_s, imei.to_s)
 
   end
 
@@ -137,6 +165,12 @@ class Device < ActiveRecord::Base
     end
 
     c
+
+  end
+
+  def update_device_on_redis
+
+    $redis.hset(self.imei.to_s + ":d", "name", self.name.to_s)
 
   end
 

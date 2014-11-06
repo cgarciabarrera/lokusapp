@@ -4,14 +4,11 @@
       <!-- language selector -->
       <div class="language-selector">
         <i class="fa fa-globe"></i>
-        <span>Change your language:</span>
+        <span>Idioma:</span>
         <div>
-          <a href="#">English<i class="fa fa-angle-down"></i></a>
+          <a href="#">Castellano<i class="fa fa-angle-down"></i></a>
           <ul>
-            <li><a href="#">French</a></li>
-            <li><a href="#">German</a></li>
-            <li><a href="#">Сhinese</a></li>
-            <li><a href="#">Japanese</a></li>
+            <li><a href="#">English</a></li>
           </ul>
         </div>
       </div>
@@ -48,16 +45,34 @@
       <!--/ cart summary -->
     </div>
 
+
+
+    <% if current_user.present? %>
+        <div class="row">
+          <div class="cart-summary-right">
+            <i class="fa fa-share"></i>
+            <span><%= link_to "Log out", destroy_user_session_path %></span>
+
+          </div>
+        </div>
+    <% end %>
+
     <div class="row">
       <!-- follow us -->
-      <div class="follow-us">
-        <a href="#" class="fa fa-dribbble"></a>
-        <a href="#" class="fa fa-tumblr"></a>
-        <a href="#" class="fa fa-rss"></a>
-        <a href="#" class="fa fa-skype"></a>
-        <a href="#" class="fa fa-facebook"></a>
-        <a href="#" class="fa fa-twitter"></a>
+      <div class="cart-summary-right">
+
+        <% unless current_user.present? %>
+            <i class="fa fa-key"></i>
+            <span><%= link_to "Log in", new_user_session_path %></span>
+        <% else %>
+            <i class="fa  fa-meh-o"></i>
+            <span>Hola, <%= current_user.name %></span>
+        <% end %>
       </div>
+
+
+
+
       <!--/ follow us -->
     </div>
 

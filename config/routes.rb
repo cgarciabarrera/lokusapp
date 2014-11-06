@@ -24,6 +24,11 @@ Lokusapp::Application.routes.draw do
 
   end
 
+
+  resources :faq do
+
+  end
+
   resources :cart do
 
   end
