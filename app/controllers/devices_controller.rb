@@ -8,6 +8,7 @@ class DevicesController < ApplicationController
   # GET /devices.json
   def index
     #@devices = Device.all
+
     @devices = Device.where("user_id = ?",current_user.id ).includes(:user)
   end
 

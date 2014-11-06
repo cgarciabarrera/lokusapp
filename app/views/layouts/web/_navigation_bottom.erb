@@ -91,7 +91,7 @@
           </ul>
         </li>
         <li>
-          <a href="#">Shop</a>
+          <a href="/" class= <%=( [ "cart", "item"].include? params[:controller]) ? "active" : ""  %>> Shop</a
           <ul>
             <li><%= link_to "Catalog", item_index_path   %></li>
             <li><%= link_to "Cart",  cart_index_path  %>></li>
