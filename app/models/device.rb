@@ -56,7 +56,7 @@ class Device < ActiveRecord::Base
     s.user_shared_id = user_shared_to
     if s.save
 
-      $redis.sadd("us:" + user.to_s, imei.to_s)
+      $redis.sadd("us:" + user_shared_to.to_s, imei.to_s)
       true
     else
       false
