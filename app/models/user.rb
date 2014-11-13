@@ -22,9 +22,11 @@ class User < ActiveRecord::Base
 
   has_many :shareds
 
+  has_many :alarms , :dependent => :destroy
+
+  has_many :locations, :dependent => :destroy
+
   has_many :shareds_with_me, :foreign_key => 'user_shared_id', :class_name => "Shared"
-
-
 
   private
 

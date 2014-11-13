@@ -53,6 +53,20 @@ Lokusapp::Application.routes.draw do
         end
       end
 
+      resources :locations do
+        collection do
+          get :add_location
+          post :add_location
+
+          get :del_location
+          post :del_location
+
+          get :list_locations
+          post :list_locations
+
+        end
+      end
+
       resources :devices do
         collection do
           get :register_device

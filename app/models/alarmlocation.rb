@@ -1,0 +1,3 @@
+class AlarmLocation < Alarm
+
+end
