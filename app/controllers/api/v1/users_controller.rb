@@ -14,7 +14,9 @@ class Api::V1::UsersController < Api::V1::CommonController
       params[:nickname].present? ? u.name = params[:nickname] : params[:email]
       if u.valid?
         u.save
-        api_ok(:auth_token=>u.authentication_token)
+      #:auth_token=>u.authentication_token)
+
+        api_ok(:auth_token=>$redis.keys("*:u:" + u.id.to_s).first.split(":")[1])
 
       else
         api_error( u.errors, 500)
