@@ -20,6 +20,10 @@ class DevicesController < ApplicationController
   # GET /devices/new
   def new
     @device = Device.new
+
+
+
+
   end
 
   # GET /devices/1/edit
@@ -30,7 +34,9 @@ class DevicesController < ApplicationController
   # POST /devices.json
   def create
     @device = Device.new(device_params)
-    #@device.user = current_user
+    @device.user = current_user
+
+
     respond_to do |format|
       if @device.save
         format.html { redirect_to @device, notice: 'Device was successfully created.' }
