@@ -1,43 +1,39 @@
+
+
 <%= form_for(@device) do |f| %>
-  <% if @device.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@device.errors.count, "error") %> prohibited this device from being saved:</h2>
 
-      <ul>
-      <% @device.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
 
-    <div class="field">
-      <%= f.label :imei %><br>
-      <%= f.text_field :imei %>
-    </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.hidden_field :user_id, :value => current_user.id.to_s %>
-  </div>
-  <div class="field">
-    <%= f.label :type_id %><br>
-    <%= f.number_field :type_id %>
-  </div>
 
-  <div class="field">
-    <%= f.label :active %><br>
-    <%= f.check_box :active %>
-  </div>
-  <div class="field">
-    <%= f.label :available %><br>
-    <%= f.check_box :available %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <% if @device.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@device.errors.count, "error") %> prohibited this device from being saved:</h2>
+
+          <ul>
+            <% @device.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+
+    <form action="php/contacts-process.php" method="post" id="widget-form" novalidate="novalidate">
+      <div class="field"><%= f.text_field :name, :placeholder => "Nombre" %></div>
+      <div class="field"><%= f.text_field :imei, :placeholder => "IMEI" %></div>
+
+      <div class="field"><%= f.number_field  :type_id, :placeholder => "Tipo" %></div>
+
+    <%= f.check_box :active, :placeholder => "Activo" %>
+      <div class="field"><%= f.check_box :available, :placeholder => "Disponible" %></div>
+
+       <div id="widget_server_responce"></div>
+      <div class="buttons">
+        <button type="reset">Reset</button><button type="submit">Grabar</button>
+      </div>
+
+    </form>
+
+
+
 <% end %>

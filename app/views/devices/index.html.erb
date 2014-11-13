@@ -1,22 +1,94 @@
+<div class="grid-col grid-col-9">
+  <!-- cart products -->
+  <div class="cart-products">
+    <table>
+      <tbody><tr>
+        <th class="pic"></th>
+        <th class="name">Product</th>
+        <th class="price">Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th class="remove"></th>
+      </tr>
+      <tr>
+        <td class="pic"><a href="#"><img src="pic/catalog-grid/item-2.jpg" width="54" height="54" alt=""></a></td>
+        <td class="name"><h4><a href="#">Fujifilm Finepix xp50</a></h4></td>
+        <td class="price">$900</td>
+        <td class="quantity">
+          <div><a href="#" class="minus"></a><input type="text" value="1"><a href="#" class="plus"></a></div>
+        </td>
+        <td class="price">$900</td>
+        <td class="remove"><a href="#" class="fa fa-times"></a></td>
+      </tr>
+      <tr>
+        <td class="pic"><a href="#"><img src="pic/catalog-grid/item-6.jpg" width="54" height="54" alt=""></a></td>
+        <td class="name"><h4><a href="#">Motorola Triumph</a></h4></td>
+        <td class="price">$5500</td>
+        <td class="quantity">
+          <div><a href="#" class="minus"></a><input type="text" value="1"><a href="#" class="plus"></a></div>
+        </td>
+        <td class="price">$5500</td>
+        <td class="remove"><a href="#" class="fa fa-times"></a></td>
+      </tr>
+      <tr>
+        <td colspan="6">
+          <div class="coupon">
+            <input type="text" placeholder="Coupon code">
+            <button type="submit" class="button">Apply Coupon</button>
+          </div>
+          <button type="submit" class="button">Update Cart</button><!--
+										--><button type="submit" class="button">Proceed to Checkout</button>
+        </td>
+      </tr>
+      </tbody></table>
+  </div>
+  <!--/ cart products -->
+
+  <!-- cart totals -->
+  <div class="cart-totals">
+    <h2>Cart Totals</h2>
+    <table>
+      <tbody><tr>
+        <th>Cart Subtotal</th>
+        <td>$6400</td>
+      </tr>
+      <tr>
+        <th>Shipping and Handling</th>
+        <td>Free Shipping</td>
+      </tr>
+      <tr>
+        <th>Order Total</th>
+        <td>$6400</td>
+      </tr>
+      </tbody></table>
+  </div>
+  <!--/ cart totals -->
+
+  <!-- shipping calculator -->
+
+
+  <!--/ shipping calculator -->
+</div>
+
+
 <h1>Listing devices</h1>
 
 <table>
   <thead>
-    <tr>
+    <tr >
       <th>Name</th>
       <th>IMEI</th>
-      <th>User</th>
+      <th>User</thv>
       <th>Type</th>
       <th>Last lat</th>
       <th>Last lon</th>
       <th>Last fix</th>
       <th>Active</th>
-      <th>Available</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+      <th >Available</th>
+      <th ></th>
+      <th ></th>
+      <th> </th>
+    </tr> </thead>
 
   <tbody>
     <% @devices.each do |device| %>

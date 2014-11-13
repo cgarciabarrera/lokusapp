@@ -1,5 +1,13 @@
-<h1>New device</h1>
+<div class="grid-row">
 
-<%= render 'form' %>
-
-<%= link_to 'Back', devices_path %>
+  <div class="grid-col grid-col-6">
+    <!-- feedback -->
+    <div class="widget-alt widget-alt-feedback">
+      <div class="head">New device</div>
+      <div class="cont">
+        <%= render 'form' %>
+      </div>
+    </div>
+    <%= link_to 'Back', devices_path %>
+  </div>
+</div>
