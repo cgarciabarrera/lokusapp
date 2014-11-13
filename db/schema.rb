@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141002171551) do
+ActiveRecord::Schema.define(version: 20141113164626) do
 
   create_table "devices", force: true do |t|
     t.string   "name"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 20141002171551) do
     t.datetime "last_ack"
     t.integer  "position_status", default: 0
     t.boolean  "gps_status",      default: false
+  end
+
+  create_table "locations", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.float    "lat"
+    t.float    "lon"
+    t.integer  "radius"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "roles", force: true do |t|
