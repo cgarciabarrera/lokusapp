@@ -28,6 +28,8 @@ gem "capistrano", "~> 2.13.4"
 gem 'rvm-capistrano'
 
 gem 'acts_as_shopping_cart', '~> 0.2.1'
+gem 'carrierwave'
+
 
 
 group :development do

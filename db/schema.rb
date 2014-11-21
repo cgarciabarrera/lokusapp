@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121105304) do
+ActiveRecord::Schema.define(version: 20141121113224) do
 
   create_table "alarm_locations", force: true do |t|
     t.datetime "created_at"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20141121105304) do
     t.boolean  "active",                              default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "picture"
   end
 
   create_table "locations", force: true do |t|
