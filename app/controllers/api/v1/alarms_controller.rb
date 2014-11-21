@@ -4,11 +4,11 @@ class Api::V1::AlarmsController < Api::V1::CommonController
 
   skip_before_filter :verify_authenticity_token
 
-  def add_alarm_proximity_point
+  def add_location_alarm
 
     #
 
-    if params[:name].present? && params[:lat].present? && params[:lon].present? && params[:radius].present?
+    if params[:name].present? && params[:location_id].present? && params[:warns_on_in].present? && params[:device_id].present?
 
       #Location.where(:name => params[:name], :user_id => @user).destroy_all
 
@@ -33,7 +33,7 @@ class Api::V1::AlarmsController < Api::V1::CommonController
   end
 
 
-  def del_alarm
+  def del_location_alarm
 
     if params[:id].present?
 
@@ -53,7 +53,7 @@ class Api::V1::AlarmsController < Api::V1::CommonController
 
   end
 
-  def list_alarms
+  def list_location_alarms
     l = Location.where(:user_id => @user).select([:lat, :lon, :name, :radius, :id])
     api_ok(:locations=>l)
 
