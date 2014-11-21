@@ -19,7 +19,8 @@
   <!-- products grid -->
   <section class="products-grid">
     <ul>
-      <li>
+      <% @items.each do |i| %><li>
+
         <div>
           <div class="pic">
             <img src="pic/catalog-grid/item-1.jpg" alt="">
@@ -31,142 +32,14 @@
             <em></em>
           </div>
           <div class="sale">SALE!</div>
-          <h3><a href="shop-product.html">Motorola Triumph</a></h3>
+          <h3><a href="shop-product.html"><%= i.name %></a></h3>
           <div class="rating"><span style="width:80%"></span></div>
-          <div class="price">$1500</div>
+          <div class="price">
+            <%= number_with_precision( i.price, :precision => 2)  %>
+          </div>
           <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
         </div>
-      </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-2.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-2.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <h3><a href="shop-product.html">Fujifilm Finepix xp50</a></h3>
-        <div class="rating"><span style="width:100%"></span></div>
-        <div class="price">$900</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-3.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-3.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <h3><a href="shop-product.html">Fujifilm Finepix j210</a></h3>
-        <div class="rating"><span style="width:60%"></span></div>
-        <div class="price">$2300</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-4.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-4.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <h3><a href="shop-product.html">Alcatel OT-990</a></h3>
-        <div class="rating"><span style="width:40%"></span></div>
-        <div class="price">$3100</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-5.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-5.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <h3><a href="shop-product.html">HTC Freestyle</a></h3>
-        <div class="rating"><span style="width:80%"></span></div>
-        <div class="price">$1100</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-6.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-6.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <div class="sale">SALE!</div>
-        <h3><a href="shop-product.html">Motorola Triumph</a></h3>
-        <div class="rating"><span style="width:100%"></span></div>
-        <div class="price">$5500</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-7.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-7.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <div class="sale">SALE!</div>
-        <h3><a href="shop-product.html">Anycool T818</a></h3>
-        <div class="rating"><span style="width:40%"></span></div>
-        <div class="price">$4000</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-8.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-8.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <h3><a href="shop-product.html">FLY E176</a></h3>
-        <div class="rating"><span style="width:80%"></span></div>
-        <div class="price">$700</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li><!--
-							--><li>
-      <div>
-        <div class="pic">
-          <img src="pic/catalog-grid/item-9.jpg" alt="">
-          <span></span>
-          <ul>
-            <li><a href="pic/catalog-grid/item-9.jpg" class="fa fa-plus fancybox"></a></li>
-            <li><a href="shop-product.html" class="fa fa-share"></a></li>
-          </ul>
-        </div>
-        <h3><a href="shop-product.html">Motorola Droid X</a></h3>
-        <div class="rating"><span style="width:100%"></span></div>
-        <div class="price">$3500</div>
-        <a href="#" class="button button-with-left-icon button-xsmall"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-      </div>
-    </li>
+      </li><% end %>
     </ul>
   </section>
   <!--/ products grid -->
