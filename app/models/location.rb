@@ -5,6 +5,4 @@ class Location < ActiveRecord::Base
   belongs_to :alarm_location
 
 
-
-
 end
