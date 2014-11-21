@@ -1,3 +1,0 @@
-class AlarmLocation < Alarm
-
-end
