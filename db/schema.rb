@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121103609) do
+ActiveRecord::Schema.define(version: 20141121113224) do
 
   create_table "alarm_locations", force: true do |t|
     t.datetime "created_at"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(version: 20141121103609) do
     t.datetime "updated_at"
   end
 
+  create_table "cart_items", force: true do |t|
+    t.integer "owner_id"
+    t.string  "owner_type"
+    t.integer "quantity"
+    t.integer "item_id"
+    t.string  "item_type"
+    t.float   "price"
+  end
+
   create_table "devices", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -42,6 +51,17 @@ ActiveRecord::Schema.define(version: 20141121103609) do
     t.datetime "last_ack"
     t.integer  "position_status", default: 0
     t.boolean  "gps_status",      default: false
+  end
+
+  create_table "items", force: true do |t|
+    t.string   "name"
+    t.decimal  "price",      precision: 8,  scale: 2, default: 0.0
+    t.decimal  "tax",        precision: 10, scale: 0
+    t.datetime "last_fix"
+    t.boolean  "active",                              default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "picture"
   end
 
   create_table "locations", force: true do |t|
