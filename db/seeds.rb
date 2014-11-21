@@ -32,7 +32,7 @@ u = User.create(:name => "Carlos 2", :email => "user2@example.com", :password =>
 Device.create(:name => "Device 2", :imei => "2", :user => u)
 
 
-i= Item.create(:name => 'navegagrande', :price => '95.99', :tax => 21,:picture => File.open("picture_demo/gps1.jpg"))
+i= Item.create(:name => 'navegagrande', :price => '95.99', :tax => 21,:picture => File.open("images_demo/gps1.jpg"))
 
 i= Item.create(:name => 'naveganiñoe', :price => '55.45', :tax => 10)
 i= Item.create(:name => 'navegabici', :price => '55.5', :tax => 21)
